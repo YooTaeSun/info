@@ -1,0 +1,13 @@
+#톰캣 킬러 스크립트
+
+if [ -z "`ps -ef | grep java | grep '/usr/local/tomcat8' | grep -v grep`" ]; then
+        echo "Tomcat was terminated successfully."
+else
+        ps -eaf | grep java | grep '/usr/local/tomcat8' | awk '{print $2}' |
+        while read PID
+                do
+                echo "Killing $PID... "
+                kill -9 $PID
+                echo "Tomcat is being shutdowned"
+                done
+fi
