@@ -1,0 +1,7 @@
+#class경로 찾기
+
+ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+//			URL url = classLoader.getResource("/config.properties");
+			URL url = classLoader.getResource("/com/townsi/setting/controller/data.json");
+			File file = new File(url.toURI().getPath());
+			System.out.println("classPath2 >> " + file.getPath());
