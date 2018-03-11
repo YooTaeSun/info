@@ -1,0 +1,38 @@
+maven  수동배포
+
+#war 파일 만들기
+  svn checkout https://100.10.30.200:8443/svn/company/abcapp
+  svn update
+  cd abcapp
+
+
+  # 메이븐 war 파일 만들기
+  mvn -Pdev clean package
+
+-----------------------------------
+
+
+#터미널에서 서버에 war파일 업로드
+
+  sftp  user@100.10.30.200
+  비번입력 12345
+  put target/abc.war
+  
+  
+-----------------------------------
+
+#ftp로 만든 war파일 톰캣으로 이동
+  ssh user@100.10.30.200
+  비번입력 12345
+
+  cp abc.war /usr/local/tomcat8/webapps/abc.war
+  rm -rf abc.war
+  
+  or
+  
+  mv abc.war /usr/local/tomcat8/webapps/abc.war
+
+
+-----------------------------------
+#톰캣 재시작
+sudo service tomcat8 restart
