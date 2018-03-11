@@ -1,0 +1,47 @@
+rm -rf www.projectName
+svn --username userName checkout svn://company.com.me/park/trunk/www.projectName
+
+cd www.projectName
+JAVA_HOME=/opt/java/jdk1.8 mvn -P prod clean package
+
+~/tomcat-www/bin/shutdown.sh
+
+rm -rf ~/tomcat-www/webapps/ROOT
+
+mv target/www ~/tomcat-www/webapps/ROOT
+
+~/tomcat-www/bin/startup.sh
+
+
+
+--------------------------------------------------------------
+
+
+서버 부팅시 프로그램 loading
+1. apt-get install 로 자동 설치 하면 service 부팅시 시작
+2. 수동 설치시 /etc/rc.local 파일에 구동 명령어 써 줘야 시작시 시작
+
+
+vim /etc/rc.local
+-- 
+
+#!/bin/sh -e
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#
+# By default this script does nothing.
+
+mount -t nfs -o nolock 000.000.100.0:/home/data /data
+
+su - tomcat -c "/home/tomcat/tomcat-www/bin/startup.sh"
+su - tomcat -c "/home/tomcat/tomcat-admin/bin/startup.sh"
+
+exit 0
+
