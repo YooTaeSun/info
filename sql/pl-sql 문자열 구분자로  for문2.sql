@@ -1,9 +1,10 @@
+
 SET SERVEROUTPUT ON ;
 
 DECLARE
 --    V_LS_TEMP VARCHAR2(100) := '#C+#E-#F';
     V_LS_TEMP VARCHAR2(100) := '';
---    V_LS_TEMP VARCHAR2(100) := '¾ÆÀÌµð,ÀÌ¸§,µî·ÏÀÏ';
+--    V_LS_TEMP VARCHAR2(100) := 'ì•„ì´ë””,ì´ë¦„,ë“±ë¡ì¼';
     
     V_LL_POS INTEGER;
     V_LL_POS_2 INTEGER;
