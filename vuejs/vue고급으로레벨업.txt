@@ -1,0 +1,46 @@
+Vue 고급으로 레벨업
+	Vue Reactivity System -	https://vuejs.org/v2/guide/reactivity.html
+	Render Function	-	https://vuejs.org/v2/guide/render-function.html
+	State Management, -	https://vuejs.org/v2/guide/state-management.html
+	Vuex 튜토리얼	-	https://joshua1988.github.io/web-development/vuejs/vuex-start/
+	Server Side Rendering	- https://vuejs.org/v2/guide/ssr.html
+	
+	
+	http://www.fastcampus.co.kr/dev_camp_wap/
+	
+1주	웹 개발 기본	
+	프론트엔드 웹 개발 개론 및 개발 생산성을 높이는 툴과 플러그인 소개 (1H)
+	Facebook Open API, Github Page, 웹 개발 기본지식을 이용하여 간단한 Facebook 애플리케이션 제작하기 (3H)
+	Node.js & NPM 소개 및 간단한 HTTP 서버 구축 (1H)
+	
+2주	브라우저 동작 원리와 웹 성능	
+	웹 페이지가 브라우저에 파싱, 렌더링 되기까지 거치는 세부적인 동작 방식 뜯어보기 (1H)
+	Chrome 개발자 도구로 Javascript Debugging 방법 학습 및 실습 예제의 성능 최적화 진행 (1H)
+	[특강] 초심자를 위한 GitHub 협업 튜토리얼 (1H)
+	성능 최적화 도구 (Gulp, Webpack) 소개 (1.5H)
+	성능 진단 도구 및 배포시 자동화 방법 소개 (0.5H)
+	
+3주	PWA 소개	
+	최신 웹 트렌드인 Progressive Web App 소개 및 시연 (1H)
+	Web App Manifest 를 이용한 웹 앱 Splash Image 제작, Install Banner 생성 실습 (1H)
+	오프라인 웹 앱 구현을 위한 Service Worker 특징, 생명 주기, Cache 구현 방법 학습 및 간단한 Offline 애플리케이션 제작 (1.5H)
+	PWA Native Feature 를 이용한 Push 알람 애플리케이션 제작 (1.5H)
+	
+4주	Vue와 Firebase 소개	
+	Vue + PWA 앱 제작에 필요한 ES6 학습 및 실습 (0.5H)
+	최신 프론트엔드 프레임워크 Vue.js – Instance, Component, Router, Template, Resource, Data Binding 소개 및 실습 (3H)
+	Google Cloud Platform 인 Firebase 의 실시간 DB, Storage, Auth, Hosting 기능 소개 및 간단한 앱 제작 (1.5H)
+	
+5주~6주	Vue.js 실전 애플리케이션 제작	
+	Vue Single File Components 구조화, Vue Loader 를 위한 Webpack 구성 파일 분석 및 실습 (2H)
+	Vue Components 구조화 및 Vue Components 통신을 익히기 위한 Todo App 제작 (3H)
+	컴포넌트 기반의 UI 화면 설계 방법 및 실습(1H)
+	UI, 차트 라이브러리를 활용한 기업용 Vue.js 애플리케이션 개발(2H)
+	자유 주제로 Vue.js 애플리케이션 개발(2H)
+	
+7주~8주	Vue & PWA 애플리케이션 제작	
+	최종 프로젝트 앱 소개 및 설계서 공유(0.5H)
+	Open API를 비롯한 프로젝트 개발환경 셋업(0.5H)
+	Vue.js + Open API + GPS + Push 알람 + Firebase 를 이용하여 SPA 기반 미세먼지 측정 프로그레시브 웹앱 제작 (7H)
+	최신 웹 트렌드 AMP(Accelerated Mobile Page) 소개 및 제작 (2H)
+	

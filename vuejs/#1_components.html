@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Components Sample</title>
+  </head>
+  <body>
+    <!-- Parent Component -->
+    <div id="app">
+      <header>
+        <h3>{{ message }}</h3>
+      </header>
+      <todo-item></todo-item>
+      <!-- 실습 #3 - 컴포넌트 등록을 위한 `todo-footer` 태그 추가 -->
+      <todo-footer></todo-footer>
+      <br/>
+      <todo-footer2></todo-footer2>
+      
+    </div>
+
+    <script src="js/vendor/vue.js"></script>
+    <!-- <script src="js/app.js"></script> -->
+    <script type="text/javascript">
+ // Global Component
+    Vue.component('todo-item', {
+      template: '<p>This is a child component</p>'
+    });
+
+    // 실습 #1 - `todo-footer` 컴포넌트 전역 등록
+    // <p>This is another child global component</p> 를 template 으로 갖는 컴포넌트를 등록해보세요.
+    Vue.component('todo-footer',{
+    	template: '<p>This is another child global component</p>'
+    });
+
+
+    var cmp = {
+    	template : '<p>This is another child local component</p>'
+    };
+
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message : 'This is a parent component'
+      },
+      components : {
+    	  'todo-footer2' : cmp
+      }
+
+      // 실습 #2 - `todo-footer` 컴포넌트 지역 등록
+      // <p>This is another child local component</p> 를 template 으로 갖는 컴포넌트를 등록해보세요.
+    });
+    </script>
+  </body>
+</html>

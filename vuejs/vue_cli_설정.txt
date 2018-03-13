@@ -1,0 +1,4 @@
+npm install -global vue_cli
+vue init webpack-simple
+npm install
+npm run dev

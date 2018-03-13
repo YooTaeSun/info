@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Templates Sample</title>
+  </head>
+  <body>
+    <div id="app">
+      <header>
+        <!-- #1 -->
+        <h3>{{ message }}</h3>
+        <h3>{{ dataResult }}</h3>
+        
+
+      </header>
+      <section>
+        <!-- #2 -->
+        <p v-bind:id="uid"></p>
+
+        <!-- #3 -->
+        <button v-on:click="clickBtn">alert</button>
+        <!-- <button @click="clickBtn">alert</button> -->
+        
+        <button v-on:click="clickBtn1">clickBtn</button>
+
+        <!-- #4 -->
+        <ul v-if="flag">
+          <li>1</li>
+          <li>2</li>
+          <li>3</li>
+        </ul>
+      </section>
+    </div>
+
+    <script src="js/vendor/vue.js"></script>
+    <!-- <script src="js/app.js"></script> -->
+    <script type="text/javascript">
+    var app = new Vue({
+    	  el: '#app',
+    	  data: {
+    	    message : 'Hello Vue.js',
+    	    // 할일 #1
+    	    // 새로운 데이터 속성을 1개 추가하고, data bindings 를 이용하여 화면에 표시해보세요.
+    	    dataResult : 'aaa',
+
+    	    uid: '10',
+    	    // 할일 #2
+    	    // uid 를 변경하고 해당 uid 의 변경 여부를 크롬 개발자 도구의 "화면 요소 검사" 기능으로 p 태그의 id 값을 확인해보세요.
+
+    	    flag: true
+    	    // 할일 #4
+    	    // 위 flag 값을 false 로 변경하였을 때 화면에 어떤 영향을 주는지 확인해보세요.
+    	  },
+    	  methods: {
+    	    // ES6
+    	    clickBtn() {
+    	      console.log("hi");
+    	    },
+
+    	    // ES5
+    	    // clickBtn: function() {
+    	    //   console.log("hi");
+    	    // }
+
+    	    // 할일 #3
+    	    // eventMethod 를 하나 추가하고 template 에서 해당 이벤트를 실행할 수 있는 button 을 하나 추가하세요.
+    	    clickBtn1(){
+				alert("clickBtn1")
+    	    }
+    	  }
+    	});
+    
+    </script>
+    
+  </body>
+</html>

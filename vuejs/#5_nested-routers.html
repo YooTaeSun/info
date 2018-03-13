@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Nested Router Sample</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Hello Vue Nested Router!</h1>
+      <p>
+        <router-link to="/login">Go to Login</router-link>
+        <router-link to="/list">Go to List</router-link>
+        <!-- 할일 #3 -->
+        <!-- `/main` 에 반응할 Nested Router 를 아래에 추가하세요 -->
+        <router-link to="/main">Go to Main</router-link>
+      </p>
+      <router-view></router-view>
+      
+      <br/><br/>
+      <div v-bind:id="dynamicId"></div>
+      <button v-bind:disabled="isButtonDisabled">Button</button>
+      
+    </div>
+
+    <script src="js/vendor/vue.js"></script>
+    <script src="js/vendor/vue-router.js"></script>
+    <!-- <script src="js/app.js"></script> -->
+    <script type="text/javascript">
+    var Login = {
+    		  template: `
+    		    <div>
+    		      Login Section
+    		      <router-view></router-view>
+    		    </div>
+    		  `,
+    		};
+    		var LoginForm = {
+    		  template: `
+    		    <form action="/" method="post">
+    		      <div>
+    		          <label for="account">E-mail : </label>
+    		          <input type="email" id="account">
+    		      </div>
+    		      <div>
+    		          <label for="password">Password : </label>
+    		          <input type="password" id="password">
+    		      </div>
+    		    </form>
+    		  `,
+    		};
+    		var List = {
+    		  template: `
+    		    <div>
+    		      List Section
+    		      <router-view></router-view>
+    		    </div>
+    		  `,
+    		};
+    		var ListItems = {
+    		  template: `
+    		    <ul>
+    		      <li>1</li>
+    		      <li>2</li>
+    		      <li>3</li>
+    		    </ul>
+    		  `,
+    		};
+    		var Main = {
+    			template : `<div>Main Section
+    				<router-view></router-view>
+    			</div>`
+    		};
+    		var MainItems = {
+				template : `
+	    		    <ul>
+		  		      <li>main1</li>
+		  		      <li>main2</li>
+		  		      <li>main3</li>
+		  		    </ul>				
+				`    				
+    		}
+
+    		// 할일 #2
+    		// Main 컴포넌트와 그 하위 컴포넌트를 아래 등록해보세요.
+
+    		var routes = [
+    		  {
+    		    path: '/login',
+    		    component: Login,
+    		    children: [
+    		      { path: '', component: LoginForm }
+    		    ]
+    		  },
+    		  {
+    		    path: '/list',
+    		    component: List,
+    		    children: [
+    		      { path: '', component: ListItems }
+    		    ]
+    		  },
+    		  // 할일 #1
+    		  // `/main` URL 에서 동작할 라우터를 하나 등록하고,
+    		  // 해당 라우터에서 동작할 Main 컴포넌트와 하위 컴포넌트를 생성하여 등록합니다.
+    		  {
+    			  path: '/main',
+    			  component: Main,
+    			  children:[
+    				  {path:'', component: MainItems}
+    			  ]
+    		  }
+    		];
+
+    		var router = new VueRouter({
+    		  routes
+    		});
+
+    		var app = new Vue({
+    		  router
+    		}).$mount('#app');
+    
+    </script>
+  </body>
+</html>
