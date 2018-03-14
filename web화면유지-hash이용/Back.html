@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="jquery-1.7.1.min.js"></script>
+<script type="text/javascript">
+var i = 0;
+$(document).ready(function() {
+ 
+	var currentPage = 1;
+	//var hashCheckInterval = setInterval("CheckForHash()", 500);
+	checkForHash();
+
+	$('#btn1').add('#btn2').add('#btn3').bind('click', function(e) {
+		currentPage = $(this).val();
+		showPage($(this).val());
+	});
+
+	$('#link').bind('click', function(e) {
+		document.location.hash = "#" + currentPage;
+	});
+});
+
+function pausecomp(millis)
+{
+    var date = new Date();
+    var curDate = null;
+    do { curDate = new Date(); }
+    while(curDate-date < millis);
+}
+
+function checkForHash() {
+	if(document.location.hash){
+		var HashLocationName = document.location.hash;
+		HashLocationName = HashLocationName.replace("#","");
+		var str = "";
+		if(HashLocationName == '3'){
+			for (var i = 0; i < 100; i++) {
+				pausecomp(1);
+				str += "<a href=\"http://www.daum.net\" id=\"link\">"+i+"</a><br/>";
+			}
+		}
+
+		$("#display").html(HashLocationName + str);
+	} else {
+		$("#display").html($('#btn1').val());
+	}
+}
+
+function showPage(value) {
+	$("#display").html(value)
+}
+</script>
+</head>
+<body>
+
+<div id="display"></div>
+<input type="button" value="1" id="btn1">&nbsp;
+<input type="button" value="2" id="btn2">&nbsp;
+<input type="button" value="3" id="btn3">&nbsp;
+<br/>
+<a href="http://www.daum.net" id="link">Google :)</a>
+</body>
+</html>
