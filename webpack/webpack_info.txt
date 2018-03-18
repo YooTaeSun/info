@@ -1,0 +1,233 @@
+
+설치 
+	npm init -y (-y 디볼트로)
+	npm i lodash --save
+	
+	npm i -g webpack webpack-cli && npm i -D webpack webpack-cli
+	
+	웹팩3까지는 webpack만 설치해도 되었는데 웹팩4부터는 webpack-cli를 같이 설치해야 커맨드라인에 webpack이란 명령어를 사용할 수 있습니다.
+	
+	npm install jquery --save (--save local에 설치)
+	
+	
+	-g -global 전역설치(시스템 level에서  설치 )  & 지역설치
+	npm install webpack -g
+
+---------------------------------------------
+
+install --save VS --save-dev
+
+	--save는 앱이 구동하기 위해 필욯나 모듈&라이브러리 설치 ex)react, vlue
+	
+	//package.json
+	"dependencies" : {
+		"vue" : "^2.3.3"
+		...
+	}
+	
+	
+	--save-dev 는 앱 개발시에 필요한 모듈&라이브러리 설치  ex)test, build tool, live reloading
+	
+	//package.json
+	"dependencies" : {
+		"gulp" : "^3.9.1"
+		...
+	}	
+	
+---------------------------------------------	
+	
+output	
+	/*
+	output NAME ptions 
+	 1.[name]: 엔트리명에 따른 output파일명 생성
+	 2.[hash]: 특정 webpack build에 따른 output 파일명 생성
+	 3.[chunkhash] 특정 chunkhash에 따른 output파일명 생성
+	 
+	output: {
+	    filename: 'bundle.js',
+	    //filename :  '[name].js'
+	    path: path.resolve(__dirname, 'dist')
+	  }
+	
+	
+	Node Path 공식 문서
+	https://nodejs.org/api/path.html
+	
+	
+	expose-loader	https://www.npmjs.com/package/expose-loader
+	Imports-loader	https://github.com/webpack-contrib/imports-loader
+	Loaders 더 많은 설정 보기	https://webpack.js.org/concepts/loaders/
+	
+	*/	
+
+-----------------------------------------
+
+https://babeljs.io/
+Babel Loader -ES6
+
+	preset : Babel 플러그인 리스트
+	
+		module : {
+			rules : [{
+				test : /\.js$/,
+				use : [{
+					loader : 'babel-loader',
+					options : {
+						presets : [
+							['es2015', 'react', {modules: false}]	//Tree Shaking : 모듈에서 사용되지 않는 것 체킹하지 않음
+						]
+					}
+				}]
+			}]
+		}
+		
+	//.bablere
+	{
+	"presets": ["react","es2015"]
+	}	
+
+
+--------------------------------
+
+ExtractTextWebpackPlugin 
+	https://webpack.js.org/plugins/extract-text-webpack-plugin/
+	
+	Add ExtractPlugin to exract the bundled css filename
+	
+	npm install webpack --save-dev
+	npm install moment lodash --save
+	npm i webpack-manifest-plugin --save-dev
+	npm i -D extract-text-webpack-plugin@next
+
+--------------------------------------
+
+플러그인 종류
+webpack plugins
+	https://webpack.js.org/plugins/
+	
+	플러그인은 파일별 커스텀 기능을 사용하기 위해서 사용한다.
+	
+	module.exports = {
+		entry : {},
+		output : {},
+		module : {},
+		plugins : [
+			new webpack.optimize.UglifyJsPlugin()
+		]
+		//...
+	};
+	
+	ProvidePlugins
+		모든 모듈에서 사용할 수 있도록 해당 모듈을 변수로 변환한다.
+		new webpack.ProvidePlugin({
+			$: "jquery"
+		})
+		
+	DefinePlugin
+		Webpack 번들링을 시작하는 시점에 사용 가능한 상수들을 정의한다.
+		일반적으로 개발계 & 테스트계에 따라 다른 설정을 적용한 때 유용하다.
+		
+		new webpack.DefinePlugin({
+			PRODUCTION : JSON.stringify(true),
+			VERSION: JSON.stringify("5fa3b9"),
+			BROWSER_SUPPORTS_HTML5: true,
+			TWO: "1+1",
+			"typeof window" : JSON.stringify("object")
+		})
+		
+	ManifestPlugin
+		번들링시 생성되는 코드(라이브러리)에 대한 정보를 json파일로 저장하여 관리
+		
+		new ManifestPlugin({
+			fileName : 'manifest.json',
+			basePath : './dist'
+		})
+	
+--------------------------------------
+
+Webpack 명령어
+
+	webpack : 웹팩 빌드 기본 명령어 (주로 개발용)
+	webpack -p : minification 기능이 들어간 빌드(주로 배포용)
+	webpack -watch(-w) : 개발에서 빌드할 파일의 변화를 감지
+	webpack -d : sourcemap 포함하여 빌드
+	webpack --display-error-details : error 발생시 디버깅 정보를 상세히 출력
+	webpack --optimize-minimize --define process.env.NODE_ENV="'production'" : 배포용
+
+--------------------------------------
+
+https://webpack.js.org/configuration/watch/
+
+Webpack watch 옵션
+	webpack 설정에 해당되는 파일의 변경이 일어나면 자동으로 번들링을 다시 진행
+		webpack --progress --watch
+		
+	참고 : npm install --sever-dev serve 한후 아래처럼 package.json 에 명령어 설정 가능
+	
+	"scripts" : {
+		"start" : "serve"
+	}
+	
+--------------------------------------
+
+개발자 도구 연동
+	브라우져에서 webpack 으로 컴파일된 파일을 디버킹 하기란 어려움
+	따라서 , 아래와 같이 source-map 설정을 추가하여 원래의 파일구조에서 디버깅이 가능
+	
+	module.exports = {
+		...
+		devtool : '#inline-source-map'
+	}
+	
+	devtool --> https://webpack.js.org/configuration/devtool/
+	
+
+--------------------------------------
+
+Gulp 연동
+
+	Gulp 사이트 --> https://gulpjs.com/
+
+	Gulp와 webpack 모두 Node.js 기반이기 때문에 통합해서 사용하기 쉽다.
+	
+	var gulp = require('gulp');
+	var webpack = require('webpack-stream');
+	var webpackConfig = require('./webpack.config.js')
+	
+	gulp.task('default', function(){
+		return gulp.src('src/entry.js')
+		.pipe(webpack(webpackConfig))
+		.pipe(gulp.dest('dist/'));
+	});	
+
+
+--------------------------------------
+
+Hot Module Replacement
+
+ 사이트 --> https://webpack.js.org/concepts/hot-module-replacement/
+
+	웹 앱에서 사용하는 JS모듈들을 갱신할때 화면의 새로고침 없이 뒷 단에서 변경 및 삭제 기능을 지원
+	공식 가이드에는 React를 기준으로 사용법이 작성되어 있으므로 참고
+	
+------------------------------------------
+
+
+
+Webpack2 Doc https://webpack.js.org/
+Webpack1 Doc http://webpack.github.io/docs/
+webpack-howto https://github.com/petehunt/webpack-howto
+webpack-howto2 https://gist.github.com/xjamundx/b1c800e9282e16a6a18e
+webpack beginners guide, Site Point https://www.sitepoint.com/beginners-guide-to-webpack-2-and-module-bundling/?utm_source=frontendfocus&utm_medium=email
+requireJS-to-webpackConfig https://www.npmjs.com/package/requirejs-to-webpack-cli
+migration from requirejs to webpack https://medium.com/@ArtyomTrityak/migration-from-require-js-to-webpack-2-a733a4366ab5
+webpack-shimming https://webpack.js.org/guides/shimming/
+Critical-Dependencies http://webpack.github.io/docs/context.html#critical-dependencies
+Gulp Webpack plugin https://www.npmjs.com/package/gulp-webpack
+Webpack Dev Server StackOverFlow https://stackoverflow.com/questions/42712054/content-not-from-webpack-is-served-from-foo
+Webpack Dev Middleware in Express http://madole.github.io/blog/2015/08/26/setting-up-webpack-dev-middleware-in-your-express-application/
+Webpack Confusing Part https://medium.com/@rajaraodv/webpack-the-confusing-parts-58712f8fcad9
+Regular Expression, MDN https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/%EC%A0%95%EA%B7%9C%EC%8B%9D
+Regular Expression Test http://regexr.com/
+Webpack First Principle, Video https://www.youtube.com/watch?v=WQue1AN93YU
+

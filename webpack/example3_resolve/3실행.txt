@@ -1,0 +1,45 @@
+
+Webpack Dev Server
+	페이지 자동고침을 제공하는 webpack 개발용 Node.js 서버
+
+설치 및 실행
+	아래 명령어로 dev-server 설치
+	npm install webpack-dev-server --save-dev
+
+설치 후 아래 명령어로 서버 실행
+	webpack-dev-server --open
+	
+	또는 package.json에 아래와 같이 명령어를 등록하여 간편하게 실행가능
+	"scripts" : {"start": "webpack-dev-server"}
+
+
+----------------------------------------------------------
+
+Webpack Dev Server 추가옵션
+
+https://webpack.js.org/configuration/dev-server/
+
+options
+	1.publicPath : Webpack으로 번들한 파일들이 위치하는 곳. default값은 /
+		// 항상 '/'를 앞뒤로 붙여야 한다.
+		publicPath: "/assets/"
+		
+	2. contentBase : 서버가 로딩할 static파일 경로를 지정 default값은 working directory
+	
+		//절대경로를 사요할 것
+		contentBase : path.join(__dirname,"public")
+		//비활성화
+		contnetBase : false
+	
+	3. compress : gzip 압축 방식을 이용하여 웹 자원의 사이즈를 줄인다.
+		compress :  true
+		
+		
+----------------------------------------------------------
+
+실습
+https://github.com/joshua1988/LearnWebpack#example-4---webpack-dev-server-setting
+
+
+
+		

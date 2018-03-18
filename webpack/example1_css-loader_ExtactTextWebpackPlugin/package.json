@@ -1,0 +1,23 @@
+{
+  "name": "example1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "css-loader": "^0.28.11",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "style-loader": "^0.20.3",
+    "webpack": "^4.1.1",
+    "webpack-manifest-plugin": "^2.0.0-rc.2"
+  },
+  "dependencies": {
+    "lodash": "^4.17.5",
+    "moment": "^2.21.0"
+  }
+}
