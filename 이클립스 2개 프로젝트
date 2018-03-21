@@ -1,0 +1,16 @@
+다른 프로젝트 참조
+
+[Build Path > Configure Build Path]를 클릭합니다.
+project 추가
+
+
+이클립스 Deployment Assembly에 대해서
+ tomcat WAS 기동 시 특정 디렉토리 영역에 프로젝트 소스를 배포한다.
+ 
+   오른쪽마우스
+   
+ Properties -> Deployment Assembly로 이동
+
+   - "Add" 버튼 선택 -> Java Build Path Entries -> "Next" 버튼 선택 -> 아까 Java Build Path에서 등록한 놈이 보인다.
+
+     -> 그놈을 선택 한 후 "Finish" -> 완료
