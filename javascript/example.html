@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<script type="text/javascript">
+//동등 연산자 & 일치 연산자
+//https://dorey.github.io/JavaScript-Equality-Table/
+console.log(1 == '1'); //true
+console.log(1 === '1'); //flase
+
+console.log(null == undefined); //true
+console.log(null === undefined); //false
+
+console.log(true == 1); //true;
+console.log(true === 1); //flase;
+console.log(true == '1'); //true;
+console.log(true === '1'); //flase;
+
+console.log(0 === -0);	//true
+console.log(NaN === NaN); //false
+
+if(true){
+	console.log('무조건 실행');
+}
+
+if(false){
+	console.log('무조건 안 실행');
+}
+
+//함수 정의 방법
+//1. 
+function aaa(){
+	
+}
+
+var aaa = function(){
+	
+}
+
+//익명함수 정의 후 호출
+(function(){
+	i = 0;
+	while (i < 10) {
+		document.write(i);
+		i += 1;
+	}
+}());
+
+/////////////////////////////////////////////////////////////
+function cal(mode){
+	var funcs = {
+			'plus' : function(left, right){
+				return left + right
+			},
+			'minus' : function(left, right){
+				return left - right
+			}
+	}
+	return funcs[mode]
+}
+
+console.log(cal('plus')(2,1));
+console.log(cal('minus')(2,1));
+
+/* 
+클로저 
+*/
+function outter(){
+	var title = 'coding everybody';
+	return function(){
+		console.log(title);
+	}
+}
+
+inner = outter();
+inner();
+
+//private varialbe
+function factory_movie(title){
+	return {
+		get_title : function(){
+			return title;
+		},
+		set_title : function(_title){
+			if(typeof _title === 'String'){
+				title = _title;
+			}else{
+				console.log("제목은 문자열이어야 합니다.");				
+			}
+		}
+	}
+}
+
+var ghost = factory_movie('Ghost in the shell');
+var matrix = factory_movie('Matrix');
+console.log(ghost.get_title());
+console.log(matrix.get_title());
+ghost.set_title(1);
+console.log(ghost.get_title());
+console.log(matrix.get_title());
+
+//클로적의 응용
+var arr = [];
+/* 
+for (var i = 0; i < 5; i++) {
+	arr[i] = function() {
+		return i;
+	}
+}
+ */
+ for (var i = 0; i < 5; i++) {
+	arr[i] = function(id){
+		return function() {
+			return id;
+		}
+	}(i)
+}
+ 
+for (var index in arr) {
+	console.log(arr[index]());
+}
+
+/* 함수의 호출  call */
+function sum(arg1, arg2){
+	return arg1+arg2;
+}
+console.log(sum(1,2));
+console.log(sum.apply(null,[1,2]));
+
+
+o1 = {val1:1, val2:2, val3:3};
+o2 = {v1:10, v2:50, v3:100, v4:25};
+function sum(){
+	var _sum = 0;
+	for ( var name in this) {
+		_sum += this[name];
+	}
+	return _sum;
+}
+console.log(sum.apply(o1));
+console.log(sum.apply(o2));
+
+/* 생성자 new 와 상속 */
+function Person(name){
+	this.name = name;
+	this.introduce = function(){
+		return 'My name is ' + this.name; 
+	}
+}
+
+var p1 = new Person('junggu');
+console.log(p1.introduce());
+
+var p2 = new Person('Tom');
+console.log(p2.introduce());
+
+/////////////////////	상속	/////////////////////////////
+function Person2(name){
+	this.name = name;
+}
+Person2.prototype.name = null;
+Person2.prototype.introduce = function(){
+	return 'My name is ' + this.name;
+}
+
+function Programmer(name){
+	this.name = name;
+}
+Programmer.prototype = new Person2();
+Programmer.prototype.coding = function(){
+	return "hello world";
+}
+
+function Designer(name){
+	this.name = name;
+}
+Designer.prototype = new Person2();
+Designer.prototype.design = function(){
+	return "beautiful!";
+}
+
+var p1 = new Programmer('ts');
+console.log(p1.introduce());
+var p2 = new Designer('design_kim');
+console.log(p2.introduce());
+
+
+function Ultra(){}
+Ultra.prototype.ultraProp = true;
+ 
+function Super(){}
+var t = new Ultra();
+//t.ultraProp = 4;
+Super.prototype = t;
+ 
+function Sub(){}
+Sub.prototype = new Super();
+ 
+var o = new Sub();
+console.log(" ultraProp >> " + o.ultraProp);
+
+///////////////////////////////////////////////////////
+//apply와 this
+var o ={};
+var p = {};
+function func(){
+	switch (this) {
+	case o :
+		console.log("o");
+		break;
+	case p :
+		console.log("p");
+		break;
+	case window :
+		console.log("window");
+		break;
+	}
+}
+func();
+func.apply(o);
+func.apply(p);
+
+///////////////////////////////////////////////////////
+//표준 내장 객체의 확장
+var arr = new Array('1','new york','2','5', '3');
+function getRandomValueFromArray(haystack){
+    var index = Math.floor(haystack.length*Math.random());
+    return haystack[index]; 
+}
+console.log(getRandomValueFromArray(arr));
+
+
+Array.prototype.rand = function(){
+    var index = Math.floor(this.length*Math.random());
+    return this[index];
+}
+var arr = new Array('8884','ㅋㅋㅋㅋ','444','55', '888');
+console.log(arr.rand());
+
+</script>
+</head>
+<body>
+
+</body>
+</html>
