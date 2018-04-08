@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+	<%include nav/header.ejs%>  
+  
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <p>money <%= money %></p>
+  </body>
+  
+  <ul>
+  <%
+  for (var i = 0; i < 7; i++) {
+  %>
+	<li><%=i%></li>  
+  <%
+  }
+  %>
+  </ul>
+  <br/>
+  <%
+  jdata.forEach(function(item){
+  %>
+	<li><%=item.name%>,<%=item.age%></li>  
+  <%
+  });
+  %>
+  
+</html>
