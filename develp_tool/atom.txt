@@ -1,0 +1,53 @@
+atom 단축키 
+	http://stevenjsmin.tistory.com/162
+	https://github.com/emmetio/emmet-atom
+
+폰트 조절 ctrl+,+/
+
+toggle tree view 
+  ctrl + \
+
+화면 나누기 
+  열린 파일에서 오른쪽 마우스 split down
+
+find 
+  다음 찾기 f3
+  이전 찾기 shift + f3
+  
+------------------------------------------
+
+패키지 File > Settings > Install >
+
+ 	------------------------------------------
+	column selection(세로 편집)로 검색
+    sublime-style-column-selection 설치 후 alt 누르고 선택
+
+	------------------------------------------
+	
+	mini로 검색 minimap(미니맵)
+	------------------------------------------
+  
+ 	emmet로 검색 
+   	사용법 : https://github.com/emmetio/emmet-atom
+     
+      https://docs.emmet.io/abbreviations/syntax/
+
+        ! + tab 기본 html문법 
+		nav>ui>li + tab
+    	a*20 + tab
+		nav>ul>li>a*5
+		nav>ul>(li>a)*5
+		nav#navigation>ul>li>a
+		nav>ul>(li.list>a)* 5
+   
+		a[target="_blank" title="asdf"]
+		li>a>table>
+		li>a>{table}
+		ul>li.item$*5
+
+	------------------------------------------
+		script로 검색 Run code in Atom!
+ 		실행 shift+ctrl+b
+ 		
+ 		
+ 		

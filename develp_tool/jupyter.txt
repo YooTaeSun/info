@@ -1,0 +1,10 @@
+jyputer 단축키
+
+Jupyter notebook shortkey
+
+1. Run --> shirt+enter
+2. split cell ->  ctrl+shirt+minus
+3. curretn Run + insert cell-->  Alt+enter
+
+http://stevenjsmin.tistory.com/162
+
