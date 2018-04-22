@@ -1,0 +1,148 @@
+http://ict-nroo.tistory.com/52?category=698685
+http://new93helloworld.tistory.com/103?category=691028 
+
+Comparison sort
+simple, slow
+	Bubble sort
+	
+		bubbleSort(A[], n) {
+		  for last <- n downto 2 {                    == 1
+		    for i <- to last-1                        == 2
+		      if (A[i] > A[i+1]) the A[i] <-> A[i+1]; == 3
+		  }
+		}
+
+	Insertion sort
+		insertionSort(A[], n) { // 배열 A[1...n]을 정렬한다.
+		  for i <- 2 to n                       == 1
+		    A[1...i]의 적당한 자리에 A[i]를 삽입한다.  == 2
+		}
+
+	Selection sort
+		각 루프마다
+		최대 원소를 찾는다
+		최대 원소와 맨 오른쪽 원소를 교환한다.
+		맨 오른쪽 원소를 제외한다.
+		하나의 원소만 남을 때까지 위의 루프를 반복한다.
+		
+		selectionSort(A[], n) {
+		  for last <- n downto 2 {                              == 1
+		    A[1,...,last] 중 가장 큰 수 A[k]를 찾는다;               == 2
+		    A[k] <-> A[last];  // A[k]와 A[last]의 값을 교환       == 3
+		  }
+		}
+
+fast
+	Quick sort
+		quickSort(A[], p, r) {
+		  base case;// p>=r일 때, 정렬할 데이터가 0개 또는 1개이므로 할 일 없음.
+		  if (p < r) then {
+		    q = partition(A, p, r);  //pivot의 위치
+		    quickSort(A, p, q-1);
+		    quickSort(A, q+1, r);
+		  }
+		}
+
+	Merge sort
+		mergeSort(A[], p, r) {
+		  base case 정의; //p>=r인 경우
+		  if (p < r) then {
+		    q <- (p + q) / 2;       //p, q의 중간 지점 계산
+		    mergeSort(A, p, q);     //전반부 정렬
+		    mergeSort(A, q+1, r);   //후반부 정렬
+		    merge(A, p, q, r);      //합병
+		  }
+		}
+		​
+		merge(A[], p, q, r) {
+		  정렬되어 있는 두 배열 A[p...q]와 A[q+1...r]을 합하여
+		  정렬된 하나의 배열A[p...r]을 만든다.
+		}
+	
+	Heap sort
+	
+		maxHeapify(A, i) {
+		  if there is no child of A[i]
+		    return;
+		  k <- index of the biggest child of i;
+		  if A[i] >= A[k]
+		    return;
+		  exchange A[i] and A[k];
+		  maxHeapify(A, k);
+		}
+		
+		HEAPSORT(A)
+		1. BUILD-MAX-HEAP(A)                 : O(n)
+		2. for i <- heap_size downto 2 do    : n-1 times
+		3.   exchange A[1] <-> A[i]          : O(1)
+		4.   heap_size <- heap_size - 1      : O(1)
+		5.   MAX-HEAPIFY(A, 1)               : O(logn)
+		
+		MAX-HEAP-INSERT(A, key) {
+		  heap_size = heap_size + 1;
+		  A[heap_size] = key;
+		  i = heap_size;
+		  while (i > 1 and A[PARENT(i)] < A[i]) {
+		    exchange A[i] and A[PARENT(i)];
+		    i = PARENT(i);
+		  }
+		}
+		
+		HEAP-EXTRACT-MAX(A)
+		1  if heap-size[A] < 1
+		2    then error "heap underflow"
+		3  max <- A[1]
+		4  A[1] <- A[heap-size[A]]
+		5  heap-size[A] <- heap-size[A] - 1
+		6  MAX-HEAPIFY(A, 1)
+		7  return max
+	
+Non-comparison sort
+	Counting Sort - 선형시간 정렬 알고리즘
+		Counting-Sort(A, B, k)
+		1  for i <- 0 to k
+		2    do C[i] <- 0
+		3  for j <- 1 to length[A]
+		4    do C[A[j]] <- C[A[j]] + 1
+		5  => C[i] now contains the number of elements equal to i.
+		6  for i <- 1 to k
+		7    do C[i] <- C[i] + C[i-1]
+		8  => C[i] now contains the number of elements less than or equal to i.
+		9  for j <- length[A] downto 1
+		10   do B[C[A[j]]] <- A[j]
+		11      C[A[j]] <- C[A[j]] - 1
+
+	Radix sort
+		Radix-Sort(A, d)
+		  for i <- 1 to d
+		    do use a stable sort to sort array A on digit i
+
+
+이진 트리(binary tree)
+	이진 트리 응용의 예: Expression Tree
+		수식을 트리로 구성하여 해석한다.
+		연산자들이 이진연산자라면 이진 트리의 형태로 표현할 수 있다.
+
+	이진 트리 응용의 예: Huffman Code
+		파일압축과 관련된 유명한 알고리즘 중 하나인 허프만 코딩을 할 때, 각 문자를 encoding하는데 허프만 tree를 구성한다.
+
+이진트리의 순회(traversal)
+
+	이진 트리의 모든 노드를 방문하는 일
+		중위(inorder) 순회
+			INORDER-TREE-WALK(x)
+			  if x != NULL
+			    then INORDER-TREE-WALK(left[x])
+			         print key[x]
+			         INORDER-TREE-WALK(right[x])
+
+		전위(preorder) 순회
+			PREORDER-TREE-WALK(x)
+			  if x != NULL
+			    then print key[x]
+			         PREORDER-TREE-WALK(left[x])
+			         PREORDER-TREE-WALK(right[x])
+		
+		후위(postorder)순회
+		레벨오더(level-order) 순회
+
