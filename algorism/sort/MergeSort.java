@@ -11,6 +11,21 @@ import java.util.Arrays;
  * http://new93helloworld.tistory.com/105?category=691028
  * 
  * 합병정렬(Merge sort)​
+	mergeSort(A[], p, r) {
+	  base case 정의; //p>=r인 경우
+	  if (p < r) then {
+	    q <- (p + q) / 2;       //p, q의 중간 지점 계산
+	    mergeSort(A, p, q);     //전반부 정렬
+	    mergeSort(A, q+1, r);   //후반부 정렬
+	    merge(A, p, q, r);      //합병
+	  }
+	}
+	​
+	merge(A[], p, q, r) {
+	  정렬되어 있는 두 배열 A[p...q]와 A[q+1...r]을 합하여
+	  정렬된 하나의 배열A[p...r]을 만든다.
+	}
+ * 
  */
 public class MergeSort {
 
