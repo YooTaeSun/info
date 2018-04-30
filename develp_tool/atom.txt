@@ -1,6 +1,12 @@
 atom 단축키 
 	http://stevenjsmin.tistory.com/162
 	https://github.com/emmetio/emmet-atom
+	
+	
+줄번호 이동 Ctrl + g 
+
+대문자 "ctrl-k ctrl-u"
+소문자 "ctrl-k ctrl-l"
 
 폰트 조절 ctrl+,+/
 
