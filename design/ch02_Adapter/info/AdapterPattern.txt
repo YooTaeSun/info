@@ -1,0 +1,8 @@
+http://secretroute.tistory.com/entry/Head-First-Design-Patterns-%EC%A0%9C7%EA%B0%95-Adapter-%ED%8C%A8%ED%84%B4%EA%B3%BC-Facade-%ED%8C%A8%ED%84%B4
+
+
+Adapter Pattern 
+	- 연관성 없는 두 객체 묶어 사용하기
+	
+	한 클래스의 인터페이스를 클라이언트에서 사용하고자 하는 다른 인터페이스로 변환한다.
+	어댑터를 이용하면 인터페이스 호환성 문제 때문에 같이 쓸 수 없는 클래스들을 연결해서 쓸 수 있다.
