@@ -1,0 +1,4 @@
+ChainOfResposibility
+ 
+다양한 처리 방식을 유연하게 연결할 수 있다.
+유연한 처리, 동적
