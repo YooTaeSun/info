@@ -1,36 +1,31 @@
 package www.townsi.com.vo;
-interface Earch {
-	public String getSpace2();
-}
 
-class Living {
-	public String space;
-
-	public String getSpace() {
-		return space;
-	}
-
-	public void setSpace(String space) {
-		this.space = space;
-	}
-}
 
 public class Person extends Living implements Earch{
 	public String name;
-	public Integer age;
+	public int age;
 	public String job;
+	public String addr;
 
-	public Person(String name, Integer age, String job) {
+	public Person(String name, int age, String job) {
 		this.name = name;
 		this.age = age;
 		this.job = job;
 	}
 
-	public Person(String space, String name, Integer age, String job) {
+	public Person(String space, String name, int age, String job) {
 		this.space = space;
 		this.name = name;
 		this.age = age;
 		this.job = job;
+	}
+
+	public Person(String space, String name, int age, String job,String addr) {
+		this.space = space;
+		this.name = name;
+		this.age = age;
+		this.job = job;
+		this.addr = addr;
 	}
 
 //	@Override
@@ -38,19 +33,16 @@ public class Person extends Living implements Earch{
 //		return name;
 //	}
 
-	public String getName() {
-		return name;
-	}
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	public Integer getAge() {
+	public int getAge() {
 		return age;
 	}
 
-	public void setAge(Integer age) {
+	public void setAge(int age) {
 		this.age = age;
 	}
 
@@ -68,6 +60,18 @@ public class Person extends Living implements Earch{
 		return null;
 	}
 
+	public String getAddr() {
+		return addr;
+	}
 
+	public void setAddr(String addr) {
+		this.addr = addr;
+	}
+
+
+
+	public String getName() {
+		return name;
+	}
 
 }

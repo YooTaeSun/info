@@ -12,15 +12,10 @@ public class CompareTest {
 		Person p1 = new Person("Ame","John", 30, "Doctor");
 		Person p2 = new Person("Korean","John", 90, "Doctor");
 		compareDTOValue(p1, p2);
-		main2();
+//		main2();
 	}
 	/**
 	 * DTO간 데이터를 전송(복사)한다.
-	 *
-	 * @param srcDTO
-	 *            원본 DTO
-	 * @param tgtDTO
-	 *            대상 DTO
 	 */
 	public static void compareDTOValue(Object srcDTO, Object tgtDTO) {
 		try {
