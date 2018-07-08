@@ -2,16 +2,15 @@ package www.townsi.com.vo;
 
 public class Human extends Living implements Earch{
 	public String name;
-	public String age;
+	public int age;
 	public String job;
-
-	public Human(String name, String age, String job) {
+	public Human(String name, int age, String job) {
 		this.name = name;
 		this.age = age;
 		this.job = job;
 	}
 
-	public Human(String space, String name, String age, String job) {
+	public Human(String space, String name, int age, String job) {
 		this.space = space;
 		this.name = name;
 		this.age = age;
@@ -33,11 +32,11 @@ public class Human extends Living implements Earch{
 
 
 
-	public String getAge() {
+	public int getAge() {
 		return age;
 	}
 
-	public void setAge(String age) {
+	public void setAge(int age) {
 		this.age = age;
 	}
 
