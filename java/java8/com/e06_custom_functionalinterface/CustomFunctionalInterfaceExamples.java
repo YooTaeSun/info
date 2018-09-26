@@ -1,0 +1,67 @@
+package www.townsi.com.e06_custom_functionalinterface;
+
+import java.math.BigDecimal;
+
+/**
+ * 
+ */
+public class CustomFunctionalInterfaceExamples {
+
+  public static void main(final String[] args) {
+	  
+	println("Area is ", 12, 20, new Function3() {
+		@Override
+		public Object apply(Object message, Object length, Object width) {
+			// TODO Auto-generated method stub
+			return message;
+		}
+		
+	});
+	  
+//    println(1, 2, 3, (i1, i2, i3) -> String.valueOf(i1 + i2 + i3));
+//    println("Area is ", 12, 20, (message, length, width) -> message + (length * width));
+//    println(1L, "ebonggu005", "test@email.com", (id, name, email) -> "User info: ID=" + id + ", name=" + name + ", email=" + email);
+//    final Function3<Integer, Integer, Integer, String> f3 = (i1, i2, i3) -> String.valueOf(i1 + i2 + i3);
+
+    final BigDecimalToCurrency bigDecimalToCurrency = bd -> "$" + bd.toString();
+    System.out.println(bigDecimalToCurrency.toCurrency(new BigDecimal("120.00")));
+
+    final InvalidFunctionalInterface anonymousClass = new InvalidFunctionalInterface() {
+      @Override
+      public <T> String mkString(final T value) {
+        return value.toString();
+      }  
+    };
+    System.out.println("anonymous class: " + anonymousClass.mkString(123));
+    
+    if(true) return;
+
+//    value -> value.toString() 부분에서 에러! Target method is generic.
+//    final InvalidFunctionalInterface invalidFunctionalInterface = value -> value.toString();
+//    System.out.println(invalidFunctionalInterface.mkString(123));
+  }
+
+  private static <T1, T2, T3> void println(T1 t1, T2 t2, T3 t3, Function3<T1, T2, T3, String> function) {
+    System.out.println(function.apply(t1, t2, t3));
+  }
+}
+
+@FunctionalInterface
+interface Function3<T1, T2, T3, AR1> {
+  AR1 apply(T1 t1, T2 t2, T3 t3);
+//  void print(int i);
+}
+
+@FunctionalInterface
+interface BigDecimalToCurrency {
+  String toCurrency(BigDecimal value);
+}
+
+/**
+ * Generic method를 가지는 FunctionalInterface는
+ * Lambda Expression을 사용할수 없습니다.
+ */
+@FunctionalInterface
+interface InvalidFunctionalInterface {
+  <T> String mkString(T value);
+}
