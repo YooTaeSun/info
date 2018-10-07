@@ -24,3 +24,6 @@ docker cp mysql:/var/lib/mysql mysql/data
 
 docker-machine ip
 
+--------------
+-d 백그라운드에서 실행
+docker run --name wordpress --link mysql:mysql -p 8080:80 -d wordpress:latest
