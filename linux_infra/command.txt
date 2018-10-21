@@ -1,0 +1,109 @@
+
+명령어 빈도수 
+history | awk '{a[$2]++}END{for(i in a){print a[i] " " i}}' | sort -rn | head -10
+
+23 cat
+11 ll
+7 sudo
+5 cd
+3 nano
+2 pwd
+2 history
+1 ls
+1 clear
+
+---------------------------------------------------
+
+우분투 - alias 추가
+	sudo vim ~/.bashrc 
+	alias ll='ls --al'
+
+---------------------------------------------------
+
+cat 으로 파일내용 추가
+cat >> 10.txt
+456
+789
+
+-------------------------
+redirect
+	지우는 파일 없을시 
+	rm 2.txt 1> result.txt 	1>은 표춘출력이라  파일에 저장 되지 않는다.
+	rm 2.txt 2> log.txt 에러출력은 2> 
+	
+	rm 2>txt 1> result.txt 2> log.txt
+
+
+	ls -al > /dev/null  출력을 쓰레기통 속으로
+----------------------------------
+
+pakage manager
+
+apt-get update;
+apt-cache search htop
+apt-get install htop
+apt-get upgrade htop
+apt-get remove htop
+
+----------------------------------
+
+git 
+	apt-get install git
+	
+	git clone https://github.com/YooTaeSun/info.git info
+
+----------------------------------
+이미지 다운로드
+
+wget -O 1.png https://t1.daumcdn.net/daumtop_chanel/op/20170315064553027.png
+
+----------------------------------
+
+파일 내용 찾기
+	grep 리눅스 linux.txt;
+	ls --help | grep sort;
+
+
+	ps aux
+	
+-------------------------------------
+bash vs zsh
+
+	root@goorm:/test/linux# echo $0
+	bash	
+	
+	zsh z셀 설치
+		apt-get install zsh;
+		
+	설치후 zsh echo $0
+zsh	
+
+
+-------------------------------------
+
+shell script
+	
+#!/bin/bash
+if !  [ -d bak ]; then
+        mkdir bak
+fi
+cp *.log bak
+
+-------------------------------------
+
+find usage 
+
+	https://www.tecmint.com/35-practical-examples-of-linux-find-command/
+	
+	find . -name *.log   -> . 현재 디렉토리  , ~ 홈 디렉토리 , / 루트 디렉토리
+	
+-------------------------------------
+
+whereis 실행파일을 찾아주는 명령
+	whereis is;
+	echo $PATH;
+
+
+
+
+
