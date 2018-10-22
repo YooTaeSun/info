@@ -102,6 +102,28 @@ find usage
 whereis 실행파일을 찾아주는 명령
 	whereis is;
 	echo $PATH;
+	
+-------------------------------------
+
+backgroud	
+
+	vim 1.txt &
+	vim 100.txt &
+	jobs;
+	
+	root@goorm:/test# jobs
+	[1]-  정지됨               vim 1.txt
+	[2]+  정지됨               vim 100.txt	
+	
+	fg (+으로 되어 있는 것이 foregroud 로)
+	
+	kill %1
+	kill -9 %1
+	
+	ls -alR 1> result2.txt 2>error2.log
+	
+	 		
+		
 
 
 
