@@ -186,6 +186,14 @@ startup script bashrc
 	bash 해도 실행
 
 
+--------------------------------
 
+console 명령시 ---> \   줄바꿈 기호 지우기
+curl -X PUT --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{ \ 
+ "updSabun" : "20062713" \ 
+ }' 'http://localhost:10080/api/businessAct/903055'
+
+
+ 
 
 
