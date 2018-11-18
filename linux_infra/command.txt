@@ -184,6 +184,158 @@ startup script bashrc
 	
 	cd ~ 폴더에 .bashrc 파일 처음에 실행되게 되어있다.
 	bash 해도 실행
+	
+	
+------------------------------
+
+id -> 나는 누구인가
+	root@goorm:/workspace/maven# id
+	uid=0(root) gid=0(root) 그룹들=0(root)
+
+who -> 누가 접속했는지
+	root@goorm:/workspace/maven# who
+	root     pts/0        2018-11-18 09:34 (ip-172-18-0-1.ap-northeast-2.compute.internal)
+	root     pts/1        2018-11-18 09:34 (ip-172-18-0-1.ap-northeast-2.compute.internal)
+	root     pts/2        2018-11-18 09:34 (ip-172-18-0-1.ap-northeast-2.compute.internal)
+
+------------------------------------------------------------
+
+Internet
+
+ping google.co.com
+
+	PING www.google.com (172.217.25.196) 56(84) bytes of data.
+	64 bytes from nrt12s13-in-f4.1e100.net (172.217.25.196): icmp_seq=1 ttl=44 time=31.3 ms
+	64 bytes from nrt12s13-in-f4.1e100.net (172.217.25.196): icmp_seq=2 ttl=44 time=31.3 ms
+	
+
+내 IP 알기
+	1) ip address
+		root@goorm:/workspace/maven# ip address
+		1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1
+		    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+		    inet 127.0.0.1/8 scope host lo
+		       valid_lft forever preferred_lft forever
+		    inet6 ::1/128 scope host
+		       valid_lft forever preferred_lft forever
+		952: eth0@if953: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group defaul
+		t
+		    link/ether 02:42:ac:11:00:03 brd ff:ff:ff:ff:ff:ff
+		    inet 172.18.0.3/16 scope global eth0
+		       valid_lft forever preferred_lft forever
+		    inet6 fe80::42:acff:fe11:3/64 scope link
+		       valid_lft forever preferred_lft forever	
+
+	2) 브라우져에서  ipinfo.io/ip       
+    				curl ipinfo.io/ip
+    				
+    1,2) 가 다른 경우 -  ip address 라우터 주소(private address), curl ipinfo.io/ip 는 라우터의 외부주소
+    		   
+    		    
+------------------------------------------------------------
+ssh
+	sudo apt-get purge openssh-server openssh-client
+	
+	sudo apt-get install openssh-server openssh-client
+	
+	sudo service ssh start
+	
+	shdo ps aux | grep ssh
+	
+	root           1  0.0  0.0  61384  5512 ?        Ss   13:18   0:00 /usr/sbin/sshd -D
+	root          13  0.0  0.0 105648  6504 ?        Ss   13:18   0:00 sshd: root@pts/0
+	root          25  0.0  0.0 105648  6580 ?        Ss   13:18   0:00 sshd: root@pts/1
+	root          27  0.0  0.0 105648  6364 ?        Ss   13:18   0:00 sshd: root@pts/2
+	root         700  0.0  0.0  11176  2256 pts/0    S+   13:25   0:00 grep ssh
+
+--------------------------------------------------------------------
+
+web server
+
+	sudo apt-get install apache2
+	
+	아파치를 잘 모르겠다
+	sudo apt-cache search apache
+	
+	sudo apt-get update
+	
+	sudo dpkg -l|grep apache2
+	dpkg --get-selections apache2
+	
+	sudo apt-get install apache2
+
+	sudo service start apache2
+	sudo service stop apache2
+	sudo service restart apache2
+	
+	ps aux | grep apache2
+	netstat -ntpl 	
+	 
+	htop
+	
+	sudo apt-get install elinks
+	
+	elinks
+	
+	ip addr
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+1188: eth0@if1189: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group defa
+ult
+    link/ether 02:42:ac:11:00:13 brd ff:ff:ff:ff:ff:ff
+    inet 172.18.0.19/16 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::42:acff:fe11:13/64 scope link
+       valid_lft forever preferred_lft forever
+	
+	elinks http://172.18.0.19/
+	
+	curl http://ipinfo.io/ip
+	--> 13.125.195.148
+	
+	
+	아파치 apt-get 으로 설치하면
+	/etc/apache2 에 저장 
+	
+	cd /etc/apache2 
+	vim /etc/apach2.conf
+	
+		-> IncludeOptional sites-enabled/*.conf
+
+	root@goorm:/etc/apache2/sites-available# ls -al
+	합계 20
+	drwxr-xr-x 2 root root 4096 11월 18 14:13 .
+	drwxr-xr-x 8 root root 4096 11월 18 14:18 ..
+	-rw-r--r-- 1 root root 1332  1월  7  2014 000-default.conf
+	-rw-r--r-- 1 root root 6437  1월  7  2014 default-ssl.conf
+
+ 
+		vim 000-default.conf -> DocumentRoot /var/www/html
+		
+		
+		cd /var/log/apache2
+		
+		root@goorm:/var/log# cd /var/log/apache2
+		root@goorm:/var/log/apache2# ls -al
+		합계 12
+		drwxr-x---  2 root adm    4096 11월 18 14:13 .
+		drwxrwxr-x 23 root syslog 4096 11월 18 14:12 ..
+		-rw-r-----  1 root adm       0 11월 18 14:13 access.log
+		-rw-r-----  1 root adm     278 11월 18 14:21 error.log
+		-rw-r-----  1 root adm       0 11월 18 14:13 other_vhosts_access.log		
+		
+
+	root@goorm:/var/log/apache2# curl http://localhost/index.html
+		
+	root@goorm:/var/log/apache2# cat access.log
+	::1 - - [18/Nov/2018:14:27:58 +0000] "GET /index.html HTTP/1.1" 200 11764 "-" "curl/7.35.0"
+		
+
+
 
 
 
