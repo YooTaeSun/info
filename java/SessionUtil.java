@@ -70,8 +70,6 @@ public class SessionUtil {
     /**
      * 로그인사용자정보
      * @return
-     * @작성자 kim.choong.wan
-     * @date 20181025
      *
      */
     @Deprecated
@@ -86,8 +84,6 @@ public class SessionUtil {
     /**
      * 로그인한 사용자의 사번을 리턴
      * @return
-     * @작성자 kim.choong.wan
-     * @date 20181025
      *
      */
     public static String getLoginUserId() {
@@ -95,7 +91,7 @@ public class SessionUtil {
       SawonDetailInfo userInfo = SessionUtil.getLoginUser();
       if(userInfo == null) {
        //TODO 로그인 시스템이 확정되지 않아 임시로 코딩. 정상개발 이후에 걷어내시오.
-        return "21120430"; //박영진팀장 사번
+        return "21120430";
       }
         
       return userInfo.getSabun();
