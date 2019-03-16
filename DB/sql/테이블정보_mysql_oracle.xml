@@ -1,23 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.townsi.table.tableDAO">
+<mapper namespace="com.townsi.setting.mapper.ISettingMapper">
 
-	<!-- table info -->
-	<select id="selectList_mysql" parameterType="hashMap" resultType="hashMap">
+<select id="selectTableInfoByMysql" parameterType="hashMap" resultType="hashMap" useCache="true">
 		SELECT
-					*
+			A.*
+			,concat('private ',A.W_TYPE) AS MEM_VARI
 				FROM
 					(
 					select
 							A.ORDINAL_POSITION AS ORDINAL_POSITION,
-							'' as MEM_VARI,
 							A.COLUMN_COMMENT,
 							A.COLUMN_COMMENT as COMMENTS,
 							A.COLUMN_NAME,
 							A.COLUMN_NAME as SET_GET_COLUMN_NAME,
 							A.COLUMN_NAME as CAMEL_COLUMN_NAME,
 							A.COLUMN_TYPE,
-							A.COLUMN_TYPE as W_TYPE
+							(CASE
+								WHEN A.DATA_TYPE = 'bigint' THEN 'Long'
+								WHEN A.DATA_TYPE = 'int' THEN 'Integer'
+								WHEN A.DATA_TYPE = 'float' THEN 'Float'
+								WHEN A.DATA_TYPE = 'longtext' THEN 'Long'
+								WHEN A.DATA_TYPE = 'tinyint' THEN 'Integer'
+								WHEN A.DATA_TYPE = 'decimal' THEN 'Integer'
+								WHEN A.DATA_TYPE = 'datetime' THEN 'Date'
+								WHEN A.DATA_TYPE = 'varchar' THEN 'String'
+								WHEN A.DATA_TYPE = 'mediumtext' THEN 'String'
+							ELSE 'String' END) AS W_TYPE
+							,(CASE WHEN A.COLUMN_KEY = 'PRI' THEN 'PK' END ) AS PK
 		-- 					,A.COLUMN_KEY
 		-- 					,A.COLUMN_DEFAULT
 		-- 					,A.IS_NULLABLE
@@ -27,18 +37,18 @@
 						LEFT OUTER JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE B ON
 							(
 								B.COLUMN_NAME = A.COLUMN_NAME
-								AND B.TABLE_NAME = 'posts'
+								AND B.TABLE_NAME = #{tableName}
 								AND B.REFERENCED_TABLE_NAME IS NOT NULL
 							)
 						WHERE
 							A.TABLE_SCHEMA = SCHEMA()
-							AND A.TABLE_NAME = 'posts'
+							AND A.TABLE_NAME = #{tableName}
 					) A
 				ORDER BY
 					A.ORDINAL_POSITION
-	</select>
+</select>
 
-	<select id="selectList_oracle" parameterType="hashMap" resultType="hashMap">
+<select id="selectTableInfoByOracle" parameterType="hashMap" resultType="hashMap">
 	WITH T_CON AS(
 		SELECT
 			UCC.COLUMN_NAME,
@@ -50,21 +60,28 @@
 		WHERE
 			1 = 1
 			AND UCC.CONSTRAINT_NAME = US.CONSTRAINT_NAME
-			AND UCC.TABLE_NAME = 'DEPT'
+			AND UCC.TABLE_NAME = #{tableName}
 	) SELECT
 		*
 	FROM
 		(
 			SELECT
 				COLUMN_ID AS ORDINAL_POSITION,
-				'private ' || DECODE( DATA_TYPE, 'NUMBER', (CASE WHEN DATA_SCALE != 0 THEN 'Double' ELSE 'Long' END), 'DATE', 'Date', 'String' ) || ' ' || LOWER( SUBSTR( REPLACE( INITCAP( ATC.COLUMN_NAME ), '_' ), 1, 1 ))|| SUBSTR( REPLACE( INITCAP( ATC.COLUMN_NAME ), '_' ), 2 )|| ';' AS mem_vari,
+				'private ' || DECODE( DATA_TYPE, 'NUMBER', (CASE WHEN DATA_SCALE != 0 THEN 'Double' ELSE 'Long' END), 'DATE', 'Date', 'String' ) || ' ' || LOWER( SUBSTR( REPLACE( INITCAP( ATC.COLUMN_NAME ), '_' ), 1, 1 ))|| SUBSTR( REPLACE( INITCAP( ATC.COLUMN_NAME ), '_' ), 2 )|| ';' AS MEM_VARI,
 				ACC.COMMENTS AS COLUMN_COMMENT,
 				DECODE( LENGTH( COMMENTS ), NULL, '',  COMMENTS ) AS COMMENTS,
 				ATC.COLUMN_NAME AS COLUMN_NAME, /* 컬럼명 */
-				UPPER( SUBSTR( REPLACE( INITCAP( ATC.COLUMN_NAME ), '_' ), 1, 1 ))|| SUBSTR( REPLACE( INITCAP( ATC.COLUMN_NAME ), '_' ), 2 ) AS SET_GET_COLUMN_NAME /* 컬럼명 */
-				,LOWER( SUBSTR( REPLACE( INITCAP( ATC.COLUMN_NAME ), '_' ), 1, 1 ))|| SUBSTR( REPLACE( INITCAP( ATC.COLUMN_NAME ), '_' ), 2 ) AS CAMEL_COLUMN_NAME, /* 컬럼명 */
+				UPPER( SUBSTR( REPLACE( INITCAP( ATC.COLUMN_NAME ), '_' ), 1, 1 ))|| SUBSTR( REPLACE( INITCAP( ATC.COLUMN_NAME ), '_' ), 2 ) AS SET_GET_COLUMN_NAME, /* 컬럼명 */
+				LOWER( SUBSTR( REPLACE( INITCAP( ATC.COLUMN_NAME ), '_' ), 1, 1 ))|| SUBSTR( REPLACE( INITCAP( ATC.COLUMN_NAME ), '_' ), 2 ) AS CAMEL_COLUMN_NAME, /* 컬럼명 */
 				DATA_TYPE AS COLUMN_TYPE, /* 데이터타입 */
-				DECODE( DATA_TYPE, 'NUMBER', (CASE WHEN DATA_SCALE != 0 THEN 'Double' ELSE 'Long' END), 'DATE', 'Date', 'String' ) AS W_TYPE 
+				DECODE( DATA_TYPE, 'NUMBER', (CASE WHEN DATA_SCALE != 0 THEN 'Double' ELSE 'Long' END), 'DATE', 'Date', 'String' ) AS W_TYPE,
+				(SELECT DECODE(T_CON.CONSTRAINT_TYPE,'P','PK','R','FK','C','CK','UK','UK')
+						FROM
+							T_CON
+						WHERE 1=1
+							AND T_CON.CONSTRAINT_TYPE = 'P'
+							AND T_CON.COLUMN_NAME = ATC.COLUMN_NAME
+				) AS PK
 			FROM
 				ALL_TAB_COLUMNS ATC,
 				ALL_COL_COMMENTS ACC
@@ -73,18 +90,14 @@
 				AND ATC.OWNER = ACC.OWNER
 				AND ATC.TABLE_NAME = ACC.TABLE_NAME
 				AND ATC.COLUMN_NAME = ACC.COLUMN_NAME
-				AND ATC.TABLE_NAME = 'DEPT'
+				AND ATC.TABLE_NAME = #{tableName}
 		) A
 	ORDER BY
 		A.ORDINAL_POSITION
-	</select>
+</select>
+
+<select id="selectSqlInfo" parameterType="hashMap" resultType="hashMap" useCache="true">
+${fromSql}
+</select>
+
 </mapper>
-
-
-ORDINAL_POSITION |MEM_VARI                   |COLUMN_COMMENT |COMMENTS |COLUMN_NAME  |SET_GET_COLUMN_NAME |CAMEL_COLUMN_NAME |COLUMN_TYPE |W_TYPE |
------------------|---------------------------|---------------|---------|-------------|--------------------|------------------|------------|-------|
-2                |private String dname;      |부서명            |부서명      |DNAME        |Dname               |dname             |VARCHAR2    |String |
-3                |private String loc;        |부서위치           |부서위치     |LOC          |Loc                 |loc               |VARCHAR2    |String |
-4                |private String userName;   |               |         |USER_NAME    |UserName            |userName          |VARCHAR2    |String |
-5                |private String userNameId; |               |         |USER_NAME_ID |UserNameId          |userNameId        |VARCHAR2    |String |
-1                |private Long deptno;       |부서번호           |부서번호     |DEPTNO       |Deptno              |deptno            |NUMBER      |Long   |
