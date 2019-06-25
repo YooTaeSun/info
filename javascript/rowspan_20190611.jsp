@@ -60,9 +60,8 @@ $(function(){
 			 };
 
 		 doList();
-
-		 merge_obj.fn_rowSum($("#listArea3 tr"), ['1','3','4','5','6']);
-		 //merge_obj.fn_rowSum($("#listArea3 tr"), ['3','4','5','6']);
+		 //merge_obj.fn_rowSum($("#listArea3 tr"), ['1','2']);
+		 merge_obj.fn_rowSum($("#listArea3 tr"), ['1','2','3','4','5','6','7']);
 
 });
 
@@ -86,7 +85,7 @@ function doList() {
 
 	var data = {
 		result : true,
-		//{"1":{"0":2},"4":{"0":2,"3":6},"5":{"0":6}}
+		////idxObj >> {"1":{"2":6},"7":{"0":1,"2":6,"7":12}}
 		list : {
 			a : [
 				{
@@ -98,24 +97,8 @@ function doList() {
 					EVAL_SCORE : "10",
 				},
 				{
-					REWARD_CD_NM : "aaa",
-					EVAL_ITEM_NM : "111",
-					MAX_SCORE : "100",
-					EVAL_TYP_NM : "EVAL_TYP_NM",
-					RISK_TYP_CD_NM : "상",
-					EVAL_SCORE : "10",
-				},
-				{
-					REWARD_CD_NM : "aaa",
-					EVAL_ITEM_NM : "111",
-					MAX_SCORE : "100",
-					EVAL_TYP_NM : "EVAL_TYP_NM",
-					RISK_TYP_CD_NM : "상",
-					EVAL_SCORE : "10",
-				},
-				{
 					REWARD_CD_NM : "bbb",
-					EVAL_ITEM_NM : "222",
+					EVAL_ITEM_NM : "111",
 					MAX_SCORE : "100",
 					EVAL_TYP_NM : "EVAL_TYP_NM",
 					RISK_TYP_CD_NM : "상",
@@ -130,7 +113,7 @@ function doList() {
 					EVAL_SCORE : "10",
 				},
 				{
-					REWARD_CD_NM : "ddd",
+					REWARD_CD_NM : "ccc",
 					EVAL_ITEM_NM : "222",
 					MAX_SCORE : "100",
 					EVAL_TYP_NM : "EVAL_TYP_NM",
@@ -140,6 +123,41 @@ function doList() {
 				]
 		},
 		list2 : {
+			h : [
+				{
+					REWARD_CD_NM : "aaa",
+					EVAL_ITEM_NM : "111",
+					MAX_SCORE : "100",
+					EVAL_TYP_NM : "EVAL_TYP_NM",
+					RISK_TYP_CD_NM : "상",
+					EVAL_SCORE : "10",
+				},
+				{
+					REWARD_CD_NM : "bbb",
+					EVAL_ITEM_NM : "111",
+					MAX_SCORE : "100",
+					EVAL_TYP_NM : "EVAL_TYP_NM",
+					RISK_TYP_CD_NM : "상",
+					EVAL_SCORE : "10",
+				},
+				{
+					REWARD_CD_NM : "ccc",
+					EVAL_ITEM_NM : "222",
+					MAX_SCORE : "100",
+					EVAL_TYP_NM : "EVAL_TYP_NM",
+					RISK_TYP_CD_NM : "상",
+					EVAL_SCORE : "10",
+				},
+				{
+					REWARD_CD_NM : "ccc",
+					EVAL_ITEM_NM : "222",
+					MAX_SCORE : "100",
+					EVAL_TYP_NM : "EVAL_TYP_NM",
+					RISK_TYP_CD_NM : "상",
+					EVAL_SCORE : "10",
+				},
+				]
+			,
 			g : [
 				{
 					REWARD_CD_NM : "aaa",
@@ -465,7 +483,7 @@ function doList() {
 
 			//fn_mergeRowSpan($("#listArea tr"), ['reward_cd_nm','eval_item_nm']);
 //			merge_obj.fn_rowSum($("#listArea tr"), ['reward_cd_nm','eval_item_nm','max_score']);
-			merge_obj.fn_rowSum($("#listArea tr"), ['reward_cd_nm','eval_item_nm','max_score']);
+			merge_obj.fn_rowSum($("#listArea tr"), ['reward_cd_nm','eval_item_nm']);
 
 
 			$("#t1").rowspan(1);
@@ -570,6 +588,7 @@ var merge_obj = {
 		var val = null;
 		var start = -1;
 		var end = -1;
+		var pre_next_array  = null;
 
 		for ( var key_idxObj in idxObj) {
 			var el_obj = idxObj[key_idxObj];
@@ -596,24 +615,27 @@ var merge_obj = {
 						if(start == -1){
 
 							if(p_start > key){
-								start = key;
 
 								if(p_start > val){
-									end = val;
-									if(start < end){ this.putArray(next_array, start, end); start = -1; end = -1;} else{start = -1; end = -1;}
 
-								}else if(p_start <= val && val <= p_end){
+								}else
+
+									if(p_start <= val && val <= p_end){
 
 									start = p_start;
 									end = val;
 									if(start < end){ this.putArray(next_array, start, end); start = -1; end = -1;} else{start = -1; end = -1;}
 
 								}else if(val > p_end){
+									start = p_start;
+									end = p_end;
+									if(start < end){ this.putArray(next_array, start, end); start = -1; end = -1;} else{start = -1; end = -1;}
+
 									continue;
 								}
 
 							}else if(p_start <= key && key <= p_end){
-								start = key;
+								start = parseInt(key);
 
 								if(p_start > val){
 									end = val;
@@ -661,27 +683,39 @@ var merge_obj = {
 								start = p_end +1;
 							}
 						}
-
-
 					}
 				}
 			}
 
-			console.log(" next_array >> " + JSON.stringify(next_array));
+			start = -1;
+			end = -1;
 
-			if(next_array && next_array.length > 0){
+			if(next_array){
+
 				b_idxArray.splice(0, b_idxArray.length);
 				idxObj[key_idxObj] = {};
 
-				for (var ni = 0; ni < next_array.length; ni++) {
-					var array_element = next_array[ni];
-					for ( var ne_key in next_array[ni]) {
-						b_idxArray.push(parseInt(ne_key));
-						b_idxArray.push(next_array[ni][ne_key]);
-						idxObj[key_idxObj][ne_key] = next_array[ni][ne_key];
+				if(next_array.length == 0){
+					next_array = pre_next_array;
+
+					console.log(" next_array >> " + JSON.stringify(next_array));
+				}else{
+
+					console.log(" next_array >> " + JSON.stringify(next_array));
+					for (var ni = 0; ni < next_array.length; ni++) {
+						var array_element = next_array[ni];
+						for ( var ne_key in next_array[ni]) {
+							b_idxArray.push(parseInt(ne_key));
+							b_idxArray.push(next_array[ni][ne_key]);
+							idxObj[key_idxObj][ne_key] = next_array[ni][ne_key];
+						}
 					}
 				}
+
 			}else{
+
+console.log(" next_array >> " + JSON.stringify(next_array));
+
 				b_idxArray.splice(0, b_idxArray.length);
 				for ( var key in el_obj) {
 					b_idxArray.push(parseInt(key));
@@ -690,6 +724,7 @@ var merge_obj = {
 			}
 
 			this.fn_row_excute(key_idxObj,idxObj[key_idxObj]);
+			pre_next_array = next_array;
 		}
 	}
 }
@@ -759,7 +794,8 @@ var merge_obj = {
 		<br/>
 		<br/>
 
-<table class="table-style t_cetner" border="1">
+
+<table border="1">
 					<colgroup>
 						<col style="width:80px;"><!--ID  -->
 						<col style="width:220px;"><!--체크리스트명  -->
@@ -817,10 +853,176 @@ var merge_obj = {
 						</tr>
 					</thead>
 					<tbody id="listArea3"><tr id="listSample">
-		<td class="t_center" data-nm="checklist_id" data-rowspan="1">A.1.1.5.A</td>  <!-- ID -->
-		<td class="t_left" data-nm="checklist_nm" data-rowspan="2">1</td>	<!-- 체크리스트명 -->
-		<td data-nm="op_nm_0" data-rowspan="3">김병준</td> <!-- 책임자  -->
-		<td data-nm="op_nm_1" data-rowspan="4">서명수</td> <!-- 관리자 -->
+		<td class="t_center" data-nm="checklist_id" data-rowspan="1">A.1.1.2.A</td>  <!-- ID -->
+		<td class="t_left" data-nm="checklist_nm" data-rowspan="2">보안 정책을 수립함</td>	<!-- 체크리스트명 -->
+		<td data-nm="op_nm_0" data-rowspan="3"></td> <!-- 책임자  -->
+		<td data-nm="op_nm_1" data-rowspan="4"></td> <!-- 관리자 -->
+		<td data-nm="op_nm_2" data-rowspan="5"></td>	<!-- 운영자 -->
+		<td data-rowspan="6"><span class="fs-blue"></span></td> <!-- Self평가 -->
+		<td data-rowspan="7"><span class="fs-blue" data-nm="secu_eval_cd">Y</span></td>	<!-- 자체평가 -->
+
+			<td data-nm="H60" data-all="Y">-</td>
+
+			<td data-nm="H10" data-all="Y">-</td>
+
+			<td data-nm="H13" data-all="Y">-</td>
+
+			<td data-nm="H40" data-all="Y">-</td>
+
+			<td data-nm="H50" data-all="Y">-</td>
+
+			<td data-nm="H17" data-all="Y">-</td>
+
+			<td data-nm="H63" data-all="Y">-</td>
+
+		<td data-nm="file">
+
+		</td> <!-- 증빙자료 파일 -->
+		<td data-nm="file_reg_dt"></td>	<!-- 증빙자료 등록일자 -->
+	</tr><tr id="listSample">
+		<td class="t_center" data-nm="checklist_id" data-rowspan="1">A.1.1.3.A</td>  <!-- ID -->
+		<td class="t_left" data-nm="checklist_nm" data-rowspan="2">보안  활동의 책임과 역할을 보안 정책에 반영함</td>	<!-- 체크리스트명 -->
+		<td data-nm="op_nm_0" data-rowspan="3"></td> <!-- 책임자  -->
+		<td data-nm="op_nm_1" data-rowspan="4"></td> <!-- 관리자 -->
+		<td data-nm="op_nm_2" data-rowspan="5"></td>	<!-- 운영자 -->
+		<td data-rowspan="6"><span class="fs-blue"></span></td> <!-- Self평가 -->
+		<td data-rowspan="7"><span class="fs-blue" data-nm="secu_eval_cd">Y</span></td>	<!-- 자체평가 -->
+
+			<td data-nm="H60" data-all="Y">-</td>
+
+			<td data-nm="H10" data-all="Y">-</td>
+
+			<td data-nm="H13" data-all="Y">-</td>
+
+			<td data-nm="H40" data-all="Y">-</td>
+
+			<td data-nm="H50" data-all="Y">-</td>
+
+			<td data-nm="H17" data-all="Y">-</td>
+
+			<td data-nm="H63" data-all="Y">-</td>
+
+		<td data-nm="file">
+
+		</td> <!-- 증빙자료 파일 -->
+		<td data-nm="file_reg_dt"></td>	<!-- 증빙자료 등록일자 -->
+	</tr><tr id="listSample">
+		<td class="t_center" data-nm="checklist_id" data-rowspan="1">A.1.1.4.A</td>  <!-- ID -->
+		<td class="t_left" data-nm="checklist_nm" data-rowspan="2">보안 정책 개선사항을 주기적으로 검토함</td>	<!-- 체크리스트명 -->
+		<td data-nm="op_nm_0" data-rowspan="3"></td> <!-- 책임자  -->
+		<td data-nm="op_nm_1" data-rowspan="4"></td> <!-- 관리자 -->
+		<td data-nm="op_nm_2" data-rowspan="5"></td>	<!-- 운영자 -->
+		<td data-rowspan="6"><span class="fs-blue"></span></td> <!-- Self평가 -->
+		<td data-rowspan="7"><span class="fs-blue" data-nm="secu_eval_cd">UP</span></td>	<!-- 자체평가 -->
+
+			<td data-nm="H60" data-all="N">
+
+			본사<br></td>
+
+			<td data-nm="H10" data-all="N">
+
+			본사<br></td>
+
+			<td data-nm="H13" data-all="Y">-</td>
+
+			<td data-nm="H40" data-all="Y">-</td>
+
+			<td data-nm="H50" data-all="Y">-</td>
+
+			<td data-nm="H17" data-all="Y">-</td>
+
+			<td data-nm="H63" data-all="Y">-</td>
+
+		<td data-nm="file">
+
+		<a href="#none" class="link" data-file-download-1="">2019-03-11.txt</a></td> <!-- 증빙자료 파일 -->
+		<td data-nm="file_reg_dt">2019-06-13</td>	<!-- 증빙자료 등록일자 -->
+	</tr><tr id="listSample">
+		<td class="t_center" data-nm="checklist_id" data-rowspan="1">A.1.1.4.A</td>  <!-- ID -->
+		<td class="t_left" data-nm="checklist_nm" data-rowspan="2">보안 정책 개선사항을 주기적으로 검토함</td>	<!-- 체크리스트명 -->
+		<td data-nm="op_nm_0" data-rowspan="3"></td> <!-- 책임자  -->
+		<td data-nm="op_nm_1" data-rowspan="4"></td> <!-- 관리자 -->
+		<td data-nm="op_nm_2" data-rowspan="5"></td>	<!-- 운영자 -->
+		<td data-rowspan="6"><span class="fs-blue"></span></td> <!-- Self평가 -->
+		<td data-rowspan="7"><span class="fs-blue" data-nm="secu_eval_cd">UP</span></td>	<!-- 자체평가 -->
+
+			<td data-nm="H60" data-all="Y">-</td>
+
+			<td data-nm="H10" data-all="Y">-</td>
+
+			<td data-nm="H13" data-all="Y">-</td>
+
+			<td data-nm="H40" data-all="Y">-</td>
+
+			<td data-nm="H50" data-all="Y">-</td>
+
+			<td data-nm="H17" data-all="Y">-</td>
+
+			<td data-nm="H63" data-all="Y">-</td>
+
+		<td data-nm="file">
+
+		<a href="#none" class="link" data-file-download-1="">2019-03-11.txt</a></td> <!-- 증빙자료 파일 -->
+		<td data-nm="file_reg_dt">2019-06-14</td>	<!-- 증빙자료 등록일자 -->
+	</tr><tr id="listSample">
+		<td class="t_center" data-nm="checklist_id" data-rowspan="1">A.1.1.4.A</td>  <!-- ID -->
+		<td class="t_left" data-nm="checklist_nm" data-rowspan="2">보안 정책 개선사항을 주기적으로 검토함</td>	<!-- 체크리스트명 -->
+		<td data-nm="op_nm_0" data-rowspan="3"></td> <!-- 책임자  -->
+		<td data-nm="op_nm_1" data-rowspan="4"></td> <!-- 관리자 -->
+		<td data-nm="op_nm_2" data-rowspan="5"></td>	<!-- 운영자 -->
+		<td data-rowspan="6"><span class="fs-blue"></span></td> <!-- Self평가 -->
+		<td data-rowspan="7"><span class="fs-blue" data-nm="secu_eval_cd">UP</span></td>	<!-- 자체평가 -->
+
+			<td data-nm="H60" data-all="Y">-</td>
+
+			<td data-nm="H10" data-all="Y">-</td>
+
+			<td data-nm="H13" data-all="Y">-</td>
+
+			<td data-nm="H40" data-all="Y">-</td>
+
+			<td data-nm="H50" data-all="Y">-</td>
+
+			<td data-nm="H17" data-all="Y">-</td>
+
+			<td data-nm="H63" data-all="Y">-</td>
+
+		<td data-nm="file">
+
+		<a href="#none" class="link" data-file-download-1="">2019-03-11.txt</a></td> <!-- 증빙자료 파일 -->
+		<td data-nm="file_reg_dt">2019-06-14</td>	<!-- 증빙자료 등록일자 -->
+	</tr><tr id="listSample">
+		<td class="t_center" data-nm="checklist_id" data-rowspan="1">A.1.1.4.A</td>  <!-- ID -->
+		<td class="t_left" data-nm="checklist_nm" data-rowspan="2">보안 정책 개선사항을 주기적으로 검토함</td>	<!-- 체크리스트명 -->
+		<td data-nm="op_nm_0" data-rowspan="3"></td> <!-- 책임자  -->
+		<td data-nm="op_nm_1" data-rowspan="4"></td> <!-- 관리자 -->
+		<td data-nm="op_nm_2" data-rowspan="5"></td>	<!-- 운영자 -->
+		<td data-rowspan="6"><span class="fs-blue"></span></td> <!-- Self평가 -->
+		<td data-rowspan="7"><span class="fs-blue" data-nm="secu_eval_cd">UP</span></td>	<!-- 자체평가 -->
+
+			<td data-nm="H60" data-all="Y">-</td>
+
+			<td data-nm="H10" data-all="Y">-</td>
+
+			<td data-nm="H13" data-all="Y">-</td>
+
+			<td data-nm="H40" data-all="Y">-</td>
+
+			<td data-nm="H50" data-all="Y">-</td>
+
+			<td data-nm="H17" data-all="Y">-</td>
+
+			<td data-nm="H63" data-all="Y">-</td>
+
+		<td data-nm="file">
+
+		<a href="#none" class="link" data-file-download-1="">2019-03-11.txt</a></td> <!-- 증빙자료 파일 -->
+		<td data-nm="file_reg_dt">2019-06-14</td>	<!-- 증빙자료 등록일자 -->
+	</tr><tr id="listSample">
+		<td class="t_center" data-nm="checklist_id" data-rowspan="1">A.1.1.4.A</td>  <!-- ID -->
+		<td class="t_left" data-nm="checklist_nm" data-rowspan="2">보안 정책 개선사항을 주기적으로 검토함</td>	<!-- 체크리스트명 -->
+		<td data-nm="op_nm_0" data-rowspan="3"></td> <!-- 책임자  -->
+		<td data-nm="op_nm_1" data-rowspan="4"></td> <!-- 관리자 -->
 		<td data-nm="op_nm_2" data-rowspan="5"></td>	<!-- 운영자 -->
 		<td data-rowspan="6"><span class="fs-blue"></span></td> <!-- Self평가 -->
 		<td data-rowspan="7"><span class="fs-blue" data-nm="secu_eval_cd">UP</span></td>	<!-- 자체평가 -->
@@ -849,16 +1051,16 @@ var merge_obj = {
 
 		<td data-nm="file">
 
-		<a href="#none" class="link" data-file-download-1="">1.txt</a></td> <!-- 증빙자료 파일 -->
-		<td data-nm="file_reg_dt">2019-06-05</td>	<!-- 증빙자료 등록일자 -->
+		<a href="#none" class="link" data-file-download-1="">2019-03-11.txt</a></td> <!-- 증빙자료 파일 -->
+		<td data-nm="file_reg_dt">2019-06-14</td>	<!-- 증빙자료 등록일자 -->
 	</tr><tr id="listSample">
 		<td class="t_center" data-nm="checklist_id" data-rowspan="1">A.1.1.5.A</td>  <!-- ID -->
 		<td class="t_left" data-nm="checklist_nm" data-rowspan="2">1</td>	<!-- 체크리스트명 -->
-		<td data-nm="op_nm_0" data-rowspan="3">김병준</td> <!-- 책임자  -->
-		<td data-nm="op_nm_1" data-rowspan="4">서명수</td> <!-- 관리자 -->
+		<td data-nm="op_nm_0" data-rowspan="3"></td> <!-- 책임자  -->
+		<td data-nm="op_nm_1" data-rowspan="4"></td> <!-- 관리자 -->
 		<td data-nm="op_nm_2" data-rowspan="5"></td>	<!-- 운영자 -->
 		<td data-rowspan="6"><span class="fs-blue"></span></td> <!-- Self평가 -->
-		<td data-rowspan="7"><span class="fs-blue" data-nm="secu_eval_cd">UP</span></td>	<!-- 자체평가 -->
+		<td data-rowspan="7"><span class="fs-blue" data-nm="secu_eval_cd">Y</span></td>	<!-- 자체평가 -->
 
 			<td data-nm="H60" data-all="Y">-</td>
 
@@ -872,45 +1074,12 @@ var merge_obj = {
 
 			<td data-nm="H17" data-all="Y">-</td>
 
-			<td data-nm="H63" data-all="N">
-
-			본사<br></td>
+			<td data-nm="H63" data-all="Y">-</td>
 
 		<td data-nm="file">
 
-		<a href="#none" class="link" data-file-download-1="">2.txt</a></td> <!-- 증빙자료 파일 -->
-		<td data-nm="file_reg_dt">2019-06-05</td>	<!-- 증빙자료 등록일자 -->
-	</tr><tr id="listSample">
-		<td class="t_center" data-nm="checklist_id" data-rowspan="1">A.1.1.5.A</td>  <!-- ID -->
-		<td class="t_left" data-nm="checklist_nm" data-rowspan="2">1</td>	<!-- 체크리스트명 -->
-		<td data-nm="op_nm_0" data-rowspan="3">김병준</td> <!-- 책임자  -->
-		<td data-nm="op_nm_1" data-rowspan="4">서명수</td> <!-- 관리자 -->
-		<td data-nm="op_nm_2" data-rowspan="5"></td>	<!-- 운영자 -->
-		<td data-rowspan="6"><span class="fs-blue"></span></td> <!-- Self평가 -->
-		<td data-rowspan="7"><span class="fs-blue" data-nm="secu_eval_cd">UP</span></td>	<!-- 자체평가 -->
-
-			<td data-nm="H60" data-all="Y">-</td>
-
-			<td data-nm="H10" data-all="Y">-</td>
-
-			<td data-nm="H13" data-all="Y">-</td>
-
-			<td data-nm="H40" data-all="Y">-</td>
-
-			<td data-nm="H50" data-all="N">
-
-			본사<br></td>
-
-			<td data-nm="H17" data-all="Y">-</td>
-
-			<td data-nm="H63" data-all="N">
-
-			삼곡<br>본사<br></td>
-
-		<td data-nm="file">
-
-		<a href="#none" class="link" data-file-download-1="">3.txt</a></td> <!-- 증빙자료 파일 -->
-		<td data-nm="file_reg_dt">2019-06-07</td>	<!-- 증빙자료 등록일자 -->
+		</td> <!-- 증빙자료 파일 -->
+		<td data-nm="file_reg_dt"></td>	<!-- 증빙자료 등록일자 -->
 	</tr><tr id="listSample">
 		<td class="t_center" data-nm="checklist_id" data-rowspan="1">A.1.1.5.B</td>  <!-- ID -->
 		<td class="t_left" data-nm="checklist_nm" data-rowspan="2">2</td>	<!-- 체크리스트명 -->
@@ -922,37 +1091,6 @@ var merge_obj = {
 
 			<td data-nm="H60" data-all="Y">-</td>
 
-			<td data-nm="H10" data-all="N">
-
-			본사<br></td>
-
-			<td data-nm="H13" data-all="Y">-</td>
-
-			<td data-nm="H40" data-all="Y">-</td>
-
-			<td data-nm="H50" data-all="N">
-
-			본사<br></td>
-
-			<td data-nm="H17" data-all="Y">-</td>
-
-			<td data-nm="H63" data-all="Y">-</td>
-
-		<td data-nm="file">
-
-		<a href="#none" class="link" data-file-download-1="">111.txt</a></td> <!-- 증빙자료 파일 -->
-		<td data-nm="file_reg_dt">2019-06-07</td>	<!-- 증빙자료 등록일자 -->
-	</tr><tr id="listSample">
-		<td class="t_center" data-nm="checklist_id" data-rowspan="1">A.1.2.5.A</td>  <!-- ID -->
-		<td class="t_left" data-nm="checklist_nm" data-rowspan="2">테스트</td>	<!-- 체크리스트명 -->
-		<td data-nm="op_nm_0" data-rowspan="3"></td> <!-- 책임자  -->
-		<td data-nm="op_nm_1" data-rowspan="4"></td> <!-- 관리자 -->
-		<td data-nm="op_nm_2" data-rowspan="5"></td>	<!-- 운영자 -->
-		<td data-rowspan="6"><span class="fs-blue"></span></td> <!-- Self평가 -->
-		<td data-rowspan="7"><span class="fs-blue" data-nm="secu_eval_cd">Y</span></td>	<!-- 자체평가 -->
-
-			<td data-nm="H60" data-all="Y">-</td>
-
 			<td data-nm="H10" data-all="Y">-</td>
 
 			<td data-nm="H13" data-all="Y">-</td>
@@ -969,62 +1107,10 @@ var merge_obj = {
 
 		</td> <!-- 증빙자료 파일 -->
 		<td data-nm="file_reg_dt"></td>	<!-- 증빙자료 등록일자 -->
-	</tr><tr id="listSample">
-		<td class="t_center" data-nm="checklist_id" data-rowspan="1">A.1.3.5.A</td>  <!-- ID -->
-		<td class="t_left" data-nm="checklist_nm" data-rowspan="2">테스트2</td>	<!-- 체크리스트명 -->
-		<td data-nm="op_nm_0" data-rowspan="3"></td> <!-- 책임자  -->
-		<td data-nm="op_nm_1" data-rowspan="4"></td> <!-- 관리자 -->
-		<td data-nm="op_nm_2" data-rowspan="5"></td>	<!-- 운영자 -->
-		<td data-rowspan="6"><span class="fs-blue"></span></td> <!-- Self평가 -->
-		<td data-rowspan="7"><span class="fs-blue" data-nm="secu_eval_cd">Y</span></td>	<!-- 자체평가 -->
+	</tr>
 
-			<td data-nm="H60" data-all="Y">-</td>
-
-			<td data-nm="H10" data-all="Y">-</td>
-
-			<td data-nm="H13" data-all="Y">-</td>
-
-			<td data-nm="H40" data-all="Y">-</td>
-
-			<td data-nm="H50" data-all="Y">-</td>
-
-			<td data-nm="H17" data-all="Y">-</td>
-
-			<td data-nm="H63" data-all="Y">-</td>
-
-		<td data-nm="file">
-
-		</td> <!-- 증빙자료 파일 -->
-		<td data-nm="file_reg_dt"></td>	<!-- 증빙자료 등록일자 -->
-	</tr><tr id="listSample">
-		<td class="t_center" data-nm="checklist_id" data-rowspan="1">A.1.4.5.A</td>  <!-- ID -->
-		<td class="t_left" data-nm="checklist_nm" data-rowspan="2">테스트3</td>	<!-- 체크리스트명 -->
-		<td data-nm="op_nm_0" data-rowspan="3"></td> <!-- 책임자  -->
-		<td data-nm="op_nm_1" data-rowspan="4"></td> <!-- 관리자 -->
-		<td data-nm="op_nm_2" data-rowspan="5"></td>	<!-- 운영자 -->
-		<td data-rowspan="6"><span class="fs-blue"></span></td> <!-- Self평가 -->
-		<td data-rowspan="7"><span class="fs-blue" data-nm="secu_eval_cd">Y</span></td>	<!-- 자체평가 -->
-
-			<td data-nm="H60" data-all="Y">-</td>
-
-			<td data-nm="H10" data-all="Y">-</td>
-
-			<td data-nm="H13" data-all="Y">-</td>
-
-			<td data-nm="H40" data-all="Y">-</td>
-
-			<td data-nm="H50" data-all="Y">-</td>
-
-			<td data-nm="H17" data-all="Y">-</td>
-
-			<td data-nm="H63" data-all="Y">-</td>
-
-		<td data-nm="file">
-
-		</td> <!-- 증빙자료 파일 -->
-		<td data-nm="file_reg_dt"></td>	<!-- 증빙자료 등록일자 -->
-	</tr></tbody>
-				</table>
+	</tbody>
+</table>
 
 <textarea rows="10" cols="100" id="log"></textarea>
 
