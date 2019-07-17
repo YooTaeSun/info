@@ -15,5 +15,5 @@
     ]
 }
 
-debugÃ¢¿¡¼­ 
+debugì°½ì—ì„œ 
 C:\Program Files\nodejs\node.exe --inspect-brk=18344 server.js 
