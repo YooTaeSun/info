@@ -1,0 +1,267 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="softworks" uri="/WEB-INF/config/softworksTag.tld" %>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>포털</title>
+<%@ include file="/WEB-INF/views/common/popupHeader.jsp" %>
+<c:import url="/file/fileUpload"/>
+<c:import url="securityAuditTabForm.jsp"/>
+<script type="text/javascript">
+//<![CDATA[
+$(function(){
+	//------------------------- 파일업로드  start -------------------------
+	// 파일업로드 옵션 초기화
+	var opt = {
+		"file_0" : {
+    		data : {
+    			parentId : '<c:out value="${detail.ETC_ATCH_FILE_ID}"/>'
+    		},
+    		fileAdd : function(uploadFileName ,data){
+    			$("#viewFileName_0").val(uploadFileName);
+    		},
+    		fileDone : function(param, fileData){
+    			$("#viewFileName_0").val('');
+    			 doFileList();
+    		}
+    	}
+	}
+
+	// 파일업로드 옵션 초기화
+	fileUploadObj.init(opt);
+
+	//첨부파일 찾기
+	$('[data-file-search^="file_"]').on('click', function(e){
+		var fileId = $(e.target).attr("data-file-search");
+		$('#fileupload').attr("data-target", fileId)
+		.trigger('click');
+		return false;
+	});
+
+	//첨부파일 업로드
+	$('[data-file-attach]').on('click', function(e){
+		var fileId = $(e.target).attr("data-file-attach");
+		$('[data-file-attach]').trigger("uploadEvt", [fileId]);
+		e.preventDefault();
+	});
+
+	//첨부파일 삭제(하나)
+	$('[data-file-delete]').on('click', function(e){
+		var data = $(e.target).parents("tr").data("data");
+		doRemoveFile(data);
+		e.preventDefault();
+	});
+	// 파일다운로드
+	$('[data-file-download]').on('click', function(e){
+		var data = $(e.target).parents("tr").data("data");
+		fn_download(data['ATCH_FILE_ID'], data['FILE_SN']);
+		e.preventDefault();
+	});
+
+	//------------------------- 파일업로드  end -------------------------
+    doFileList();
+});
+
+
+//파일 리스트
+function doFileList() {
+
+	var params = {
+		atch_file_id : '<c:out value="${detail.ETC_ATCH_FILE_ID}"/>'
+	}
+
+	if(params.atch_file_id == ''){
+		console.log("no atch_file_id");
+		return;
+	}
+
+	$.ajax({
+		type: "POST",
+		url: "/file/list",
+		data : JSON.stringify(params),
+		dataType: "json",
+		contentType : 'application/json',
+		async: false,
+		success:function(data) {
+
+			//try {console.table(data.list);} catch (e) {}
+
+			$("#fileListArea").html('');
+
+			if(data.result) {
+
+				var list = data.list;
+				if(list.length > 0){
+					$(list).each(function(k, v){
+						var $sampleElement = $('#samples #listSample').clone(true);
+						$sampleElement.data("data", v);
+						$sampleElement.find("[data-nm=no]").text(k+1);
+						$sampleElement.find("[data-nm=src_file_nm]").text(v.SRC_FILE_NM);
+						$sampleElement.find("[data-nm=reg_nm]").text(v.REG_NM);
+						$sampleElement.find("[data-nm=reg_dt]").text(v.REG_DT);
+						$("#fileListArea").append($sampleElement);
+					});
+				}else{
+					$("#fileListArea").append('<tr><td colspan="5" class="ac">+++ 등록된 데이타가 없습니다 +++</td></tr>');
+				}
+
+			} else{
+				alert(data.msg);
+			}
+		},
+		error:function(request) {
+        	getAjaxError(request.status)
+		}
+	});
+}
+
+//첨부파일 삭제
+function doRemoveFile(params){
+
+	if(!confirm("삭제하시겠습니까?")){
+		return;
+	}
+
+	var data = {};
+	if(params.ATCH_FILE_ID){
+		data["atch_file_id"] = params.ATCH_FILE_ID;
+	}else{
+		alert("no file id");
+		return;
+	}
+
+	if(params.FILE_SN){
+		data["file_sn"] = params.FILE_SN;
+	}
+
+	$.ajax({
+		type: "POST",
+		url: '<c:out value="/file/removeFile"/>',
+		data : JSON.stringify(data),
+		dataType: "json",
+		contentType : 'application/json',
+		async: false,
+		success:function(data) {
+			if(data.result) {
+				alert("삭제하였습니다");
+				doFileList();
+			} else{
+				if(data.msg){
+					console.log(data.msg);
+					alert("삭제하는데 실패하였습니다.");
+				}else{
+					alert("삭제하는데 실패하였습니다.");
+				}
+			}
+		},
+		error:function(request) {
+             getAjaxError(request.status)
+         }
+	});
+}
+
+//]]>
+</script>
+</head>
+<body class="popup">
+
+<div class="pop-wrap" style="width:900px;"><!-- 윈도우 팝업 크기에 맞게 조절 -->
+	<div class="pop-head">
+		<h2>수검/감사 상세</h2>
+		<a href="#none" class="close" data-action-close>닫기</a>
+	</div><!-- //popHead -->
+	<div class="pop-cont">
+
+		<div class="tabs">
+			<div class="tabs-btn-area">
+				<ul>
+					<li><a href="#tabs-1">기본정보</a></li>
+					<li><a href="#tabs-2">업무담당자</a></li>
+					<li><a href="#tabs-3">대상 점검 목록</a></li>
+					<li><a href="#tabs-4">증빙자료 일괄등록</a></li>
+					<li class="ui-tabs-active" ><a href="#tabs-5">기타 자료</a></li>
+				</ul>
+			</div>
+
+			<div id="tabs-1"></div>
+			<div id="tabs-2"></div>
+			<div id="tabs-3"></div>
+			<div id="tabs-4"></div>
+			<div id="tabs-5">
+
+
+				<div class="sub-tit mt0">
+					<h4>파일 첨부</h4>
+				</div>
+
+				<table class="table-style">
+					<colgroup>
+						<col>
+						<col style="width:100px;">
+					</colgroup>
+					<tbody>
+						<tr>
+							<td class="file-td">
+								<input type="text" style="width:400px" id="viewFileName_0" value="" >
+								<label class="t-btn" for="sample01" data-file-search="file_0">파일찾기</label>
+							</td>
+							<td class="t_right">
+							<c:if test="${menuAuth eq 'SH' && detail.AUDIT_STATE_CD ne 'C'}">
+								<button class="btn" data-file-attach="file_0">파일등록</button>
+							</c:if>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<table class="table-style t_center">
+					<colgroup>
+						<col style="width:10%;">
+						<col>
+						<col style="width:12%;">
+						<col style="width:12%;">
+						<col style="width:12%;">
+					</colgroup>
+					<thead>
+						<tr>
+							<th>No</th>
+							<th>첨부파일명</th>
+							<th>등록자</th>
+							<th>등록일자</th>
+							<th>선택 삭제</th>
+						</tr>
+					</thead>
+					<tbody id="fileListArea">
+					</tbody>
+				</table>
+
+			</div>
+
+		</div><!-- //tabs -->
+
+		<div class="btn-area pop">
+			<button class="btn st5" data-action-close>닫기</button>
+		</div>
+
+	</div><!-- //popCont -->
+</div>	<!-- //pop-wrap -->
+
+</body>
+</html>
+
+
+<div id='samples' class='samples' style="display: none;">
+	<table>
+	<tr id="listSample">
+		<td data-nm="no">1</td>
+		<td class="t_left"><a href="#none" class="link" data-nm="src_file_nm" data-file-download></a></td>
+		<td data-nm="reg_nm"></td>
+		<td data-nm="reg_dt">2018.12.03 18:44:12</td>
+		<td>
+			<button class="t-btn" data-file-delete>삭제</button>
+		</td>
+	</tr>
+</table>
+</div>
