@@ -1,0 +1,86 @@
+CREATE TABLE tally (
+	id int unsigned NOT NULL AUTO_INCREMENT,
+	PRIMARY KEY (id)
+);
+
+-- Populate it
+delimiter //
+CREATE PROCEDURE create_tally()
+BEGIN
+  	SET @x = 0;
+  	WHILE @x<10 DO
+  		INSERT INTO tally (id) VALUES (NULL);
+		SET @x = @x + 1;
+	END WHILE;
+END//
+delimiter ;
+CALL create_tally();
+DROP PROCEDURE create_tally;
+
+
+select * from tally;
+-- -------------------------------------------------------
+
+CREATE TABLE `cho` (
+  `cho_no` int(11) NOT NULL,
+  `name` varchar(16) NOT NULL,
+  `answer` varchar(200) NOT NULL,
+  `cho_type` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  PRIMARY KEY (`cho_no`)
+)
+
+
+INSERT INTO testdb.cho
+(cho_no, name, answer, cho_type)
+VALUES(0, '김태희', '1', '01');
+INSERT INTO testdb.cho
+(cho_no, name, answer, cho_type)
+VALUES(1, '오윤아', '1,3,5', '02');
+INSERT INTO testdb.cho
+(cho_no, name, answer, cho_type)
+VALUES(2, '정우성', '2', '01');
+INSERT INTO testdb.cho
+(cho_no, name, answer, cho_type)
+VALUES(3, '신민아', '2', '01');
+INSERT INTO testdb.cho
+(cho_no, name, answer, cho_type)
+VALUES(4, '마틴', '잘했아요, 그래서', '03');
+
+-- ----------------------------------------
+select * from cho
+order by cho_no
+;
+
+select 
+T.cho_no,
+T.name,
+group_concat(answer,'')
+from 
+(
+select
+cho_no,
+name
+,SUBSTRING_INDEX(SUBSTRING_INDEX(answer, ',', n.id), ',', -1) answer
+  FROM cho t CROSS JOIN tally n
+ WHERE n.id  <= 1 + (LENGTH(answer)  - LENGTH(REPLACE(answer, ',', '')))
+--  and cho_type= '02'
+) T
+group by cho_no, name
+ ORDER BY cho_no;
+;
+
+
+-- 김태희	1
+-- 오윤아	1
+-- 오윤아	3
+-- 오윤아	5
+-- 정우성	2
+-- 신민아	2
+-- 마틴	잘했아요
+-- 마틴	 그래서
+
+-- 0	김태희	1
+-- 1	오윤아	1,3,5
+-- 2	정우성	2
+-- 3	신민아	2
+-- 4	마틴	잘했아요, 그래서
