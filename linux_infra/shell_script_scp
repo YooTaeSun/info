@@ -1,0 +1,13 @@
+#!/bin/bash
+
+LOC_SOURCE_LOC=D:\\project01/workspace/demo
+
+echo "========	file start	========="
+scp ${LOC_SOURCE_LOC}/target/classes/com/example/demo/DemoApplication.class ${LOC_SOURCE_LOC}/src/main/java/com/WEB-INF/view/aaa.jsp ts008@192.168.35.43:/data
+if [ $? != 0 ]; then exit; fi
+echo "========	file end	========="
+
+ssh ts008@192.168.35.43 "cd /data; mv DemoApplication.class /data/ROOT/classes/.; mv aaa.jsp /data/ROOT/view/.; systemctl restart apache2"
+#if [ $? != 0 ]; then exit; fi
+
+
