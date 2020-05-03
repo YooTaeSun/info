@@ -1,0 +1,48 @@
+
+-- mysql query calendar
+SELECT ym
+    ,  MIN(CASE dw WHEN 1 THEN d END) Sun
+    ,  MIN(CASE dw WHEN 2 THEN d END) Mon
+    ,  MIN(CASE dw WHEN 3 THEN d END) Tue
+    ,  MIN(CASE dw WHEN 4 THEN d END) Wed
+    ,  MIN(CASE dw WHEN 5 THEN d END) Thu
+    ,  MIN(CASE dw WHEN 6 THEN d END) Fri
+    ,  MIN(CASE dw WHEN 7 THEN d END) Sat
+  FROM (SELECT date_format(dt,'%Y%m') ym
+            ,  Week(dt) w
+            ,  Day(dt) d
+            ,  DayofWeek(dt) dw
+          FROM (SELECT CONCAT(y, '0101') + INTERVAL a*100 + b*10 + c DAY dt
+                  FROM (SELECT 0 a
+                        UNION ALL SELECT 1
+                        UNION ALL SELECT 2
+                        UNION ALL SELECT 3
+                        ) a
+                    ,  (SELECT 0 b
+                        UNION ALL SELECT 1
+                        UNION ALL SELECT 2
+                        UNION ALL SELECT 3
+                        UNION ALL SELECT 4
+                        UNION ALL SELECT 5
+                        UNION ALL SELECT 6
+                        UNION ALL SELECT 7
+                        UNION ALL SELECT 8
+                        UNION ALL SELECT 9
+                        ) b
+                    ,  (SELECT 0 c
+                        UNION ALL SELECT 1
+                        UNION ALL SELECT 2
+                        UNION ALL SELECT 3
+                        UNION ALL SELECT 4
+                        UNION ALL SELECT 5
+                        UNION ALL SELECT 6
+                        UNION ALL SELECT 7
+                        UNION ALL SELECT 8
+                        UNION ALL SELECT 9
+                        ) c
+                    ,  (SELECT '2020' y) d
+                 WHERE a*100 + b*10 + c < DayOfYear(CONCAT(y, '1231'))
+                ) a
+        ) a
+ GROUP BY ym, w
+;
