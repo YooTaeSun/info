@@ -1,5 +1,24 @@
-DROP PROCEDURE IF EXISTS OsstemWay.fill_date_dimension;
-CREATE PROCEDURE OsstemWay.`fill_date_dimension`(IN startdate DATE,IN stopdate DATE)
+-- CALENDAR ÌÖåÏù¥Î∏î
+CREATE TABLE TB_CALENDAR (
+        id                      INTEGER PRIMARY KEY,  -- year*10000+month*100+day
+        db_date                 DATE NOT NULL,
+        year                    INTEGER NOT NULL,
+        month                   INTEGER NOT NULL, -- 1 to 12
+        day                     INTEGER NOT NULL, -- 1 to 31
+        quarter                 INTEGER NOT NULL, -- 1 to 4
+        week                    INTEGER NOT NULL, -- 1 to 52/53
+        day_name                VARCHAR(9) NOT NULL, -- 'Monday', 'Tuesday'...
+        month_name              VARCHAR(9) NOT NULL, -- 'January', 'February'...
+        holiday_flag            CHAR(1) DEFAULT 'f' CHECK (holiday_flag in ('t', 'f')),
+        weekend_flag            CHAR(1) DEFAULT 'f' CHECK (weekday_flag in ('t', 'f')),
+        event                   VARCHAR(50),
+        UNIQUE td_ymd_idx (year,month,day),
+        UNIQUE td_dbdate_idx (db_date)
+);
+
+
+DROP PROCEDURE IF EXISTS testDb.fill_date_dimension;
+CREATE PROCEDURE testDb.`fill_date_dimension`(IN startdate DATE,IN stopdate DATE)
 BEGIN
     DECLARE currentdate DATE;
     SET currentdate = startdate;
@@ -22,8 +41,6 @@ BEGIN
 END;
 
 
--- «¡∑ŒΩ√¡Æ ƒ›
-
-TRUNCATE TABLE time_dimension;
+TRUNCATE TABLE TB_CALENDAR;
 CALL fill_date_dimension('2019-01-01','2019-12-31');
 OPTIMIZE TABLE time_dimension;
