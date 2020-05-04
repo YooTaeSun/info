@@ -10,7 +10,7 @@ CREATE TABLE TB_CALENDAR (
         day_name                VARCHAR(9) NOT NULL, -- 'Monday', 'Tuesday'...
         month_name              VARCHAR(9) NOT NULL, -- 'January', 'February'...
         holiday_flag            CHAR(1) DEFAULT 'f' CHECK (holiday_flag in ('t', 'f')),
-        weekend_flag            CHAR(1) DEFAULT 'f' CHECK (weekday_flag in ('t', 'f')),
+        weekend_flag            CHAR(1) DEFAULT 'f' CHECK (weekend_flag in ('t', 'f')),
         event                   VARCHAR(50),
         UNIQUE td_ymd_idx (year,month,day),
         UNIQUE td_dbdate_idx (db_date)
