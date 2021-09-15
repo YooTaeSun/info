@@ -7,3 +7,9 @@ git push가 제대로 동작하지 않는 경우 git push origin +master
 결론(Conclusion)
 git reset {commit_number}
 git push origin +master
+
+
+2.git revert (reset 사용시 git flow 다시 받으라고 한다.)
+https://www.lainyzine.com/ko/article/git-revert-reverting-commit-in-git-repository/
+
+git revert --no-edit f665b8f
