@@ -1,3 +1,26 @@
+git branch -r
+git branch -a
+
+
+git chechout feture-1
+
+git fetch
+git pull
+
+
+---- 소스 올리기 -----------------
+git add *
+git commit -m "변경"
+git push origin feture-1
+
+
+----- 충돌시	-----------------
+git stash
+git stash pop
+vscode에서 변경 옵션
+------------------------------------
+
+
 1.
 git push가 제대로 동작하지 않는 경우 git push origin +master
 주의 : 상위 커밋(작업한 내용)이 삭제될 수 있습니다.
@@ -13,3 +36,5 @@ git push origin +master
 https://www.lainyzine.com/ko/article/git-revert-reverting-commit-in-git-repository/
 
 git revert --no-edit f665b8f
+
+
