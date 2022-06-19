@@ -4,7 +4,7 @@ import java.io.File;
 
 public class EmptyFoloderRemove {
 
-	private static final String FOLDER_LOCATION = "G:\\\\정리";
+	private static final String FOLDER_LOCATION = "E:\\영화";
 	private static boolean isFinished = false;
 
 	private static void replaceText(String fileLocation) {
@@ -31,28 +31,27 @@ public class EmptyFoloderRemove {
 //					System.out.println("fileNm ->" + fileNm  + " exn >> " + exn);
 //						System.out.println(exn);
 
-						//지우는 대상 확장자
-						if (exn.equals("jpg") || exn.equals("png") || exn.equals("txt") || exn.equals("smi") || exn.equals("db")) {
+						// 지우는 대상 확장자
+						if (exn.equals("jpg") || exn.equals("png") || exn.equals("txt") || exn.equals("smi") || exn.equals("srt")
+								|| exn.equals("db")) {
 
-							if (exn.equals("smi")) {
-								if(folder.listFiles().length == 1) {
+							if (exn.equals("smi") || exn.equals("srt")) {
+								if (folder.listFiles().length == 1) {
 									System.out.println(file.getAbsolutePath() + " is deleted.");
 									file.delete();
 									System.out.println("Folder Name :: " + folder.getAbsolutePath() + " is deleted.");
 									folder.delete();
 								}
-							}else {
+							} else {
 								System.out.println(file.getAbsolutePath() + " is deleted.");
 								file.delete();
 							}
-						} 
-						
-						 
+						}
+
 						if (exn.equals("mp4") && exn.equals("avi")) {
 //							System.out.println("안 삭제 exn >> " + exn + " >> " + file.getAbsolutePath());
 						}
-					
-						
+
 					} else {
 						System.out.println(file.getAbsolutePath() + " is deleted.");
 						file.delete();
