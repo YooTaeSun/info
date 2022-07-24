@@ -1,0 +1,81 @@
+# 거래 계획 table graphqls
+
+type TransPlanDTO {
+    # id
+    planId: String
+    # 부모 참조 fk
+    planPid: String
+    # 시장구분코드명
+    market: String
+    # 종목코드
+    code: String
+    # 종목명
+    codeNm: String
+    # 상태(시작(start),
+    status: String
+    # 거래 종류(buy, sell)
+    transKind: String
+    # 계획 가격
+    price: Int
+    # 계획 거래량
+    volume: Int
+    # 거래 가격 종류(시장가, 지정가)
+    priceKind: String
+    # 삭제여부
+    delYn: String
+    # 입력날짜
+    insertDate: Date
+    # 수정날짜
+    updateDate: Date
+
+}
+
+input TransPlanFilter {
+    # id
+    planId: String
+    # 부모 참조 fk
+    planPid: String
+    # 시장구분코드명
+    market: String
+    # 종목코드
+    code: String
+    # 종목명
+    codeNm: String
+    # 상태(시작(start),
+    status: String
+    # 거래 종류(buy, sell)
+    transKind: String
+    # 계획 가격
+    price: Int
+    # 계획 거래량
+    volume: Int
+    # 거래 가격 종류(시장가, 지정가)
+    priceKind: String
+    # 삭제여부
+    delYn: String
+    # 입력날짜
+    insertDate: Date
+    # 수정날짜
+    updateDate: Date
+    # 페이징 filter
+    pageFilter: PageFilter
+
+}
+
+extend type Query {
+	# 거래 계획 단건 조회
+	getTransPlan(filter: TransPlanFilter): TransPlanDTO
+	# 거래 계획 건수 조회
+	getTransPlanCnt(filter: TransPlanFilter): Int
+	# 거래 계획 다건 조회
+	getTransPlanList(filter: TransPlanFilter): [TransPlanDTO]
+}
+
+extend type Mutation {
+	# 거래 계획 등록
+	addTransPlan(input: TransPlanFilter): Boolean
+	# 거래 계획 수정
+	modifyTransPlan(input: TransPlanFilter): Boolean
+	# 거래 계획 삭제
+	removeTransPlan(input: TransPlanFilter): Boolean	
+}
