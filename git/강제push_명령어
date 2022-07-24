@@ -1,3 +1,4 @@
+
 git branch -r
 git branch -a
 
@@ -19,6 +20,34 @@ git stash
 git stash pop
 vscode에서 변경 옵션
 ------------------------------------
+
+
+------	clone -----------
+git clone https://github.com/YooTaeSun/gitTest.git
+cd gitTest
+git checkout feature
+----------------------------
+
+
+--- 로컬 git 브랜치 ----
+git branch feature-ts007
+git checkout feature-ts007
+----------------------------
+
+--- 코딩작업 ----
+git add AAA.txt
+git commit -m "[유태선]test"
+----------------------------
+
+
+-- merge --------
+feature 와 feature-ts007 
+
+git checkout feature
+git pull
+git merge feature-ts007
+git push
+-------------------------------
 
 
 1.
