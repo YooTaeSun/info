@@ -40,13 +40,18 @@ git commit -m "[유태선]test"
 ----------------------------
 
 
--- merge --------
+-- merge feature --------
 feature 와 feature-ts007 
 
 git checkout feature
 git pull
 git merge feature-ts007
-git push
+git push origin feature
+git pull
+
+-- merge feature-ts007 --------
+git checkout feature
+git merge feature
 -------------------------------
 
 
