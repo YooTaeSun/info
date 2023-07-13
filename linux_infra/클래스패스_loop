@@ -1,0 +1,17 @@
+
+echo "===== start =========="
+
+CLASSPATH=""
+for fileNm in /C/app/BATCH/lib/*.jar
+do 
+	CLASSPATH=$CLASSPATH:$fileNm
+done 
+
+# 치환
+#CLASSPATH=${CLASSPATH/.:/}
+CLASSPATH=".:/app/BATCH/classes$CLASSPATH"
+echo $CLASSPATH
+
+export CLASSPATH
+
+echo "===== end =========="
