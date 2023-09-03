@@ -1,0 +1,19 @@
+-------------------------------------------------
+1) 
+-- jar 파일 풀기
+jar -xvf org.springframework.core-3.0.4.RELEASE.jar
+
+-------------------------------------------------
+2) class 파일을 다시 자바로 만든다운 컴파일
+-- 패키지 컴파일
+javac -d . org/springframework/util/StringUtils.java
+
+java -cp ""
+
+-------------------------------------------------
+3) 
+-- 또는 그냥 압축
+jar -cvf org.springframework.core-3.0.4.RELEASE.jar
+
+-- 플래그를 사용하려면 Manifest 또는 입력 파일을 지정해야 합니다
+jar -cvf abc.jar org
