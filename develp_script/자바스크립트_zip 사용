@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+</head>
+<script type="text/javascript">
+	const zip = (...arrays) => {
+	  const maxLength = Math.max(...arrays.map(x => x.length));
+	  return Array.from({ length: maxLength }).map((_, i) => {
+	    return Array.from({ length: arrays.length }, (_, k) => arrays[k][i]);
+	  });
+	};
+
+	function main() {
+		let 금융그룹 = [ 1, 106, 2, 3, 5, 8, 10, 11, 12, 13, 15 ];
+		금융그룹.sort(function(a, b) {
+			return a - b;
+		});
+		console.log(금융그룹);
+
+		let 생명보험 = [ 106, 3 ];
+		let 손해보험 = [ 3, 5 ];
+		let 증권 = [ 1, 2 ]; 
+
+		const cnt = 금융그룹.length;
+
+		let 생명보험2 = new Array(cnt).fill('X');
+		for (var i = 0; i < 생명보험.length; i++) {
+			var idx = 금융그룹.indexOf(생명보험[i])
+			생명보험2[idx] = 'O';
+		}
+		console.log(생명보험2);
+		
+		let 손해보험2 = new Array(cnt).fill('X');
+		for (var i = 0; i < 손해보험.length; i++) {
+			var idx = 금융그룹.indexOf(손해보험[i])
+			손해보험2[idx] = 'O';
+		}
+		console.log(손해보험2);
+
+		let 증권2 = new Array(cnt).fill('X');
+		for (var i = 0; i < 증권.length; i++) {
+			var idx = 금융그룹.indexOf(증권[i])
+			증권2[idx] = 'O';
+		}
+		console.log(증권2); 
+		
+		let zipList = zip(생명보험2, 손해보험2, 증권2);
+		console.log(zipList);
+		
+		var obj = {};
+		for (var i = 0; i < 금융그룹.length; i++) {
+			obj['' + 금융그룹[i]] = zipList[i];
+		}
+		console.log(obj);
+		
+
+		let findObj = {
+			/* 생명보험	손해보험	증권 */
+			1 : [ 'X', 'X', 'O' ],
+			2 : [ 'X', 'X', 'O' ],
+			3 : [ 'O', 'O', 'X' ],
+			5 : [ 'X', 'O', 'X' ],
+			106 : [ 'O', 'X', 'X' ],
+		};
+	}
+
+	main();
+</script>
+<body>Hi
+</body>
+</html>
