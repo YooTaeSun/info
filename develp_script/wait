@@ -1,0 +1,46 @@
+	let aaa = {
+		bbb: undefined
+	};
+	
+	function waitForObject2(obj, limitSec=5000, interVal = 500) {
+	    return new Promise((resolve, reject) => {
+	    	let cnt = 0;
+	        const intervalId = setInterval(() => {
+	        	console.log(interVal * cnt);
+	        	if (obj != undefined || (interVal * cnt) >= limitSec) { // 
+	                clearInterval(intervalId);
+	                resolve(window.thatObject);
+	            }
+	            cnt++;
+	        }, interVal); // Check every 100 milliseconds for availability of thatObject
+	    });
+	}
+	
+	/* waitForObject2(window.aaa, 10000).then((thatObject) => {
+	    // Use thatObject functionalities here
+	    debugger;
+	}); */
+	
+	 const waitForObject = (obj, limitSec=5000, interVal = 500) => {
+	    return new Promise((resolve, reject) => {
+	    	let cnt = 0;
+	        const intervalId = setInterval(() => {
+	        	console.log(interVal * cnt);
+	        	debugger;
+	            if (obj || (interVal * cnt) >= limitSec) {
+	                clearInterval(intervalId);
+	                resolve(window.thatObject);
+	            }
+	            cnt++;
+	        }, interVal); // Check every 100 milliseconds for availability of thatObject
+	    });
+	}
+	
+	async function main2() { 
+		let aaa = null;
+		await waitForObject(window.aaa, 10000);
+		console.log('================	end	=================');	
+	}
+	
+	
+	main2();
