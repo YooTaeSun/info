@@ -3,6 +3,7 @@
 <head>
 <meta charset="EUC-KR">
 <title>Insert title here</title>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <script type="text/javascript">
 	const zip = (...arrays) => {
@@ -13,51 +14,51 @@
 	};
 
 	function main() {
-		let ±İÀ¶±×·ì = [ 1, 106, 2, 3, 5, 8, 10, 11, 12, 13, 15 ];
-		±İÀ¶±×·ì.sort(function(a, b) {
+		let ê¸ˆìœµê·¸ë£¹ = [ 1, 106, 2, 3, 5, 8, 10, 11, 12, 13, 15 ];
+		ê¸ˆìœµê·¸ë£¹.sort(function(a, b) {
 			return a - b;
 		});
-		console.log(±İÀ¶±×·ì);
+		console.log(ê¸ˆìœµê·¸ë£¹);
 
-		let »ı¸íº¸Çè = [ 106, 3 ];
-		let ¼ÕÇØº¸Çè = [ 3, 5 ];
-		let Áõ±Ç = [ 1, 2 ]; 
+		let ìƒëª…ë³´í—˜ = [ 106, 3 ];
+		let ì†í•´ë³´í—˜ = [ 3, 5 ];
+		let ì¦ê¶Œ = [ 1, 2 ]; 
 
-		const cnt = ±İÀ¶±×·ì.length;
+		const cnt = ê¸ˆìœµê·¸ë£¹.length;
 
-		let »ı¸íº¸Çè2 = new Array(cnt).fill('X');
-		for (var i = 0; i < »ı¸íº¸Çè.length; i++) {
-			var idx = ±İÀ¶±×·ì.indexOf(»ı¸íº¸Çè[i])
-			»ı¸íº¸Çè2[idx] = 'O';
+		let ìƒëª…ë³´í—˜2 = new Array(cnt).fill('X');
+		for (var i = 0; i < ìƒëª…ë³´í—˜.length; i++) {
+			var idx = ê¸ˆìœµê·¸ë£¹.indexOf(ìƒëª…ë³´í—˜[i])
+			ìƒëª…ë³´í—˜2[idx] = 'O';
 		}
-		console.log(»ı¸íº¸Çè2);
+		console.log(ìƒëª…ë³´í—˜2);
 		
-		let ¼ÕÇØº¸Çè2 = new Array(cnt).fill('X');
-		for (var i = 0; i < ¼ÕÇØº¸Çè.length; i++) {
-			var idx = ±İÀ¶±×·ì.indexOf(¼ÕÇØº¸Çè[i])
-			¼ÕÇØº¸Çè2[idx] = 'O';
+		let ì†í•´ë³´í—˜2 = new Array(cnt).fill('X');
+		for (var i = 0; i < ì†í•´ë³´í—˜.length; i++) {
+			var idx = ê¸ˆìœµê·¸ë£¹.indexOf(ì†í•´ë³´í—˜[i])
+			ì†í•´ë³´í—˜2[idx] = 'O';
 		}
-		console.log(¼ÕÇØº¸Çè2);
+		console.log(ì†í•´ë³´í—˜2);
 
-		let Áõ±Ç2 = new Array(cnt).fill('X');
-		for (var i = 0; i < Áõ±Ç.length; i++) {
-			var idx = ±İÀ¶±×·ì.indexOf(Áõ±Ç[i])
-			Áõ±Ç2[idx] = 'O';
+		let ì¦ê¶Œ2 = new Array(cnt).fill('X');
+		for (var i = 0; i < ì¦ê¶Œ.length; i++) {
+			var idx = ê¸ˆìœµê·¸ë£¹.indexOf(ì¦ê¶Œ[i])
+			ì¦ê¶Œ2[idx] = 'O';
 		}
-		console.log(Áõ±Ç2); 
+		console.log(ì¦ê¶Œ2); 
 		
-		let zipList = zip(»ı¸íº¸Çè2, ¼ÕÇØº¸Çè2, Áõ±Ç2);
+		let zipList = zip(ìƒëª…ë³´í—˜2, ì†í•´ë³´í—˜2, ì¦ê¶Œ2);
 		console.log(zipList);
 		
 		var obj = {};
-		for (var i = 0; i < ±İÀ¶±×·ì.length; i++) {
-			obj['' + ±İÀ¶±×·ì[i]] = zipList[i];
+		for (var i = 0; i < ê¸ˆìœµê·¸ë£¹.length; i++) {
+			obj['' + ê¸ˆìœµê·¸ë£¹[i]] = zipList[i];
 		}
 		console.log(obj);
 		
 
 		let findObj = {
-			/* »ı¸íº¸Çè	¼ÕÇØº¸Çè	Áõ±Ç */
+			/* ìƒëª…ë³´í—˜	ì†í•´ë³´í—˜	ì¦ê¶Œ */
 			1 : [ 'X', 'X', 'O' ],
 			2 : [ 'X', 'X', 'O' ],
 			3 : [ 'O', 'O', 'X' ],
@@ -112,13 +113,142 @@
 		console.log('================	end	=================');	
 	}
 	
+	function sample1() { 
+		const arr = [1, 2, 3, 4, 5]
+		  
+		const reulst = arr.reduce((acc, cur, idx) => {
+		  console.log(acc, cur, idx);
+		  return acc + cur;
+		}, 0);
+		
+		console.log(`reulst: ${reulst}`);
+	}
 	
-	main2();
+	// Async function using setTimeout
+	async function confirm(user) {
+		swal({
+		  title: "ì‚­ì œ",
+		  text: user.name + "ì‚­ì œ í•˜ì‹œê² ìŠµë‹ˆê¹Œ?",
+		  icon: "warning",
+		  buttons: true,
+		  dangerMode: true,
+		})
+		.then((isDel) => {
+		  if (isDel === true) {
+			//ì‚­ì œ ì½”ë“œ
+			user.isDel = 'D';
+			  console.log('ì‚­ì œ ì½”ë“œ');
+		  } else {
+		    // ì•ˆ ì‚­ì œ ì½”ë“œ
+			  console.log('ì•ˆ ì‚­ì œ ì½”ë“œ');
+			  user.isDel = '';
+		  }
+		});
+	}	
+	
+	async function confirm_back(user) {
+		swal({
+		  title: "ì‚­ì œ",
+		  text: user.name + "ì‚­ì œ í•˜ì‹œê² ìŠµë‹ˆê¹Œ?",
+		  icon: "warning",
+		  buttons: true,
+		  dangerMode: true,
+		})
+		.then((isDel) => {
+		  if (isDel === true) {
+			//ì‚­ì œ ì½”ë“œ
+			user.isDel = 'D';
+			  console.log('ì‚­ì œ ì½”ë“œ');
+		  } else {
+		    // ì•ˆ ì‚­ì œ ì½”ë“œ
+			  console.log('ì•ˆ ì‚­ì œ ì½”ë“œ');
+			  user.isDel = '';
+		  }
+		  return new Promise((resolve, reject) => {
+			resolve(user);
+		  });		  
+		});
+	}
+	
+	async function confirm2(user) {		
+	  return new Promise((resolve, reject) => {
+		swal({
+			  title: "ì‚­ì œ",
+			  text: user.name + "ì‚­ì œ í•˜ì‹œê² ìŠµë‹ˆê¹Œ?",
+			  icon: "warning",
+			  buttons: true,
+			  dangerMode: true,
+			})
+			.then((isDel) => {
+			  if (isDel === true) {
+				//ì‚­ì œ ì½”ë“œ
+				user.isDel = 'D';
+				  console.log('ì‚­ì œ ì½”ë“œ');
+			  } else {
+			    // ì•ˆ ì‚­ì œ ì½”ë“œ
+				  console.log('ì•ˆ ì‚­ì œ ì½”ë“œ');
+				  user.isDel = '';
+			  }
+			  //debugger;
+			  resolve(user);
+			});
+	  });		
+	}	
+	
+	// Async function using setTimeout
+	async function confirm(user) {
+	  return new Promise((resolve, reject) => {
+	    setTimeout(() => {
+	    	resolve(user);
+	    }, 2000);
+	  });
+	}		
+	
+	async function sample2() {
+		const arr = [
+			  {
+			    id: 1,
+			    name: "aaa",
+			    age: 35,
+			    isDel: ''
+			  },
+			  {
+			    id: 2,
+			    name: "bbb",
+			    age: 2,
+			    isDel: ''
+			  }
+			];
+		
+		const list = [];
+		const messageObject = await arr.reduce(async (promise, user) => {
+		    // ëˆ„ì‚°ê°’ ë°›ì•„ì˜¤ê¸° (2)
+		    let result = await promise;
+		    //result[user.id] = await confirm2(user);
+		    //debugger;
+		    list.push(await confirm2(user));
+		    //debugger;
+		    //const ret = await confirm2(user);
+		    //result['list'].push(ret);
+		    // ë‹¤ìŒ Promise ë¦¬í„´
+		    return result;
+		  }, {}); // ì´ˆê¸°ê°’ (1)
+		  
+		console.log(messageObject);
+		console.log(list);
+	}		
+	
+	async function sample3() {
+		confirm();
+	}
 	
 	
+	function init() {
+		sample2();
+	}
 	
 	
 </script>
-<body>Hi
+<body onload="init();">Hi
 </body>
 </html>
