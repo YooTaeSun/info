@@ -1,0 +1,24 @@
+package zTest1;
+
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
+import java.time.LocalDate;
+
+
+public class StriToLocalDateTime {
+	public static void main(String[] args) {
+		String str = "2021-11-05 00:00:00";
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime dateTime = LocalDateTime.parse(str, formatter);
+		dateTime = dateTime.minusDays(1);
+		
+		System.out.println(dateTime);
+		
+		String str2 = "2021-11-05 00:00:00";
+		DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime dateTime2 = LocalDateTime.parse(str, formatter2);
+		dateTime2 = dateTime2.plusDays(1);
+		
+		System.out.println(dateTime2);
+	}
+}
