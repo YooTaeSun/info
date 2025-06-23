@@ -1,0 +1,77 @@
+SELECT
+    A.*,
+    'private ' + A.wType + ' ' + A.camelColumnName + ';' AS memVari
+FROM (
+    SELECT
+        C.ORDINAL_POSITION AS ordinalPosition,
+        C.COLUMN_NAME AS columnName,
+        C.COLUMN_NAME AS setGetColumnName,
+        C.COLUMN_NAME AS camelColumnName,
+        C.DATA_TYPE AS dataType,
+        C.IS_NULLABLE AS isNullable,
+        C.CHARACTER_MAXIMUM_LENGTH AS maxLength,
+        LTRIM(RTRIM(
+            REPLACE(REPLACE(REPLACE(C.COLUMN_DEFAULT, '''', ''), '(', ''), ')', '')
+        )) AS columnDefault,
+        EP.value AS columnComment,
+        EP.value AS comments,
+        CASE
+            WHEN C.DATA_TYPE = 'bigint' THEN 'Long'
+            WHEN C.DATA_TYPE = 'int' THEN 'Integer'
+            WHEN C.DATA_TYPE = 'float' THEN 'Float'
+            WHEN C.DATA_TYPE = 'decimal' THEN 'Integer'
+            WHEN C.DATA_TYPE = 'smallint' THEN 'Integer'
+            WHEN C.DATA_TYPE = 'tinyint' THEN 'Integer'
+            WHEN C.DATA_TYPE IN ('datetime', 'datetime2') THEN 'Date'
+            WHEN C.DATA_TYPE IN ('varchar', 'nvarchar', 'text', 'char') THEN 'String'
+            ELSE 'String'
+        END AS wType,
+        CASE WHEN KCU.COLUMN_NAME IS NOT NULL THEN 'PK' END AS pk,
+        (
+            SELECT STRING_AGG(
+                i.name COLLATE Korean_Wansung_CI_AS + ' (' +
+                CASE WHEN i.is_unique = 1 THEN 'UNIQUE ' ELSE '' END +
+                i.type_desc COLLATE Korean_Wansung_CI_AS + ')', ', '
+            )
+            FROM sys.indexes i
+            INNER JOIN sys.index_columns ic
+                ON i.object_id = ic.object_id AND i.index_id = ic.index_id
+            INNER JOIN sys.columns sc2
+                ON sc2.object_id = ic.object_id AND sc2.column_id = ic.column_id
+            WHERE i.object_id = OBJECT_ID('dbo.TB_UOMS')
+              AND sc2.name = C.COLUMN_NAME
+        ) AS indexInfo
+    FROM
+        INFORMATION_SCHEMA.COLUMNS C
+    LEFT JOIN
+        INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
+            ON C.TABLE_NAME = TC.TABLE_NAME
+           AND TC.CONSTRAINT_TYPE = 'PRIMARY KEY'
+           AND TC.TABLE_SCHEMA = 'dbo'
+    LEFT JOIN
+        INFORMATION_SCHEMA.KEY_COLUMN_USAGE KCU
+            ON TC.CONSTRAINT_NAME = KCU.CONSTRAINT_NAME
+           AND C.COLUMN_NAME = KCU.COLUMN_NAME
+    LEFT JOIN
+        sys.columns SC
+            ON SC.name = C.COLUMN_NAME
+           AND SC.object_id = OBJECT_ID('dbo.TB_UOMS')
+    LEFT JOIN
+        sys.extended_properties EP
+            ON EP.major_id = SC.object_id
+           AND EP.minor_id = SC.column_id
+           AND EP.name = 'MS_Description'
+    WHERE
+        C.TABLE_NAME = 'TB_UOMS'
+        AND C.TABLE_SCHEMA = 'dbo'
+) A
+ORDER BY
+    A.ordinalPosition
+;
+
+PK__TB_UOMS__E7F91EDF1D376A99 (UNIQUE CLUSTERED), 
+PK_UOMS_ID (UNIQUE NONCLUSTERED)
+UK_UOMS_UOM_CODE (UNIQUE NONCLUSTERED)
+UK_UOMS_UOM_CODE (UNIQUE NONCLUSTERED)
+
+indexInfo
